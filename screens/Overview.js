@@ -11,7 +11,7 @@ const Overview = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessStructure")}
+                onPress={() => navigation.navigate("Authentication")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -177,14 +177,19 @@ const Overview = () => {
                                     propColor="#757d8a"
                                     backgroundColor="black"
                                 />
-                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}>
+                                <Pressable
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}
+                                    onPress={() => {
+                                        // add press handler here ....
+                                    }}
+                                >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"  // Changed from contentFit to resizeMode
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
-                                </View>
+                                </Pressable>
 
                             </View>
                         </View>
@@ -198,14 +203,14 @@ const Overview = () => {
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
-                
+
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
                     onPress={() => navigation.navigate("BusinessStructure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
-                    Business structure
-                </Text>
+                        Business structure
+                    </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
@@ -281,7 +286,7 @@ const Overview = () => {
                         Business directors
                     </Text>
                 </Pressable>
-                
+
                 <Image
                     style={[styles.groupChild6, styles.groupChildLayout]}
                     contentFit="cover"

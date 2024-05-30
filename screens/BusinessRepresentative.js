@@ -7,6 +7,7 @@ import { useState } from "react";
 
 
 
+
 const BusinessRepresentative = () => {
     const navigation = useNavigation();
     const [selectedValue, setSelectedValue] = useState("+353");  // Use useState here
@@ -76,7 +77,7 @@ const BusinessRepresentative = () => {
                                     placeholder="Zip"
                                     placeholderTextColor="#757d8a"
                                 />
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone 1</Text>
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone </Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                                     <Picker
@@ -97,14 +98,19 @@ const BusinessRepresentative = () => {
                                         placeholderTextColor="#757d8a"
                                     />
                                 </View>
-                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}>
+                                <Pressable
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
+                                    onPress={() => {
+                                        navigation.navigate("BusinessDetails")
+                                    }}
+                                >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"  // Changed from contentFit to resizeMode
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
-                                </View>
+                                </Pressable>
 
 
 

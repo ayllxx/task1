@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, View, Pressable, Text} from "react-native";
+import { Image, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/AuthenticationStyles";
 
@@ -11,7 +11,7 @@ const Authentication = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessStructure")}
+                onPress={() => navigation.navigate("SupportingDocuments")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -49,16 +49,16 @@ const Authentication = () => {
 
 
 
-                                <Pressable style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }, {top: 100}]} onPress={() => {
-    navigation.navigate("Overview")
-}}>
-    <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
-    <Image
-        style={[styles.fillArrowLeft1, styles.fillLayout]}
-        resizeMode="cover"  // Changed from contentFit to resizeMode
-        source={require("../assets/-fill--arrowleft1.png")}
-    />
-</Pressable>
+                                <Pressable style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }, { top: 100 }]} onPress={() => {
+                                    navigation.navigate("Overview")
+                                }}>
+                                    <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
+                                    <Image
+                                        style={[styles.fillArrowLeft1, styles.fillLayout]}
+                                        resizeMode="cover"  // Changed from contentFit to resizeMode
+                                        source={require("../assets/-fill--arrowleft1.png")}
+                                    />
+                                </Pressable>
 
                             </View>
                         </View>
@@ -78,8 +78,8 @@ const Authentication = () => {
                     onPress={() => navigation.navigate("BusinessStructure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
-                    Business structure
-                </Text>
+                        Business structure
+                    </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}

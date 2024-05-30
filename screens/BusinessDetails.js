@@ -15,7 +15,7 @@ const BusinessDetails = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessStructure")}
+                onPress={() => navigation.navigate("BusinessRepresentative")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -43,7 +43,7 @@ const BusinessDetails = () => {
                                 />
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
-                                
+
 
                                 <Picker
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
@@ -63,14 +63,19 @@ const BusinessDetails = () => {
                                     placeholderTextColor="#757d8a"
                                 />
 
-                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}>
+                                <Pressable
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
+                                    onPress={() => {
+                                        navigation.navigate("BusinessOwners")
+                                    }}
+                                >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"  // Changed from contentFit to resizeMode
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
-                                </View>
+                                </Pressable>
                             </View>
                         </View>
                     </View>

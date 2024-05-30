@@ -103,7 +103,7 @@ export default StyleSheet.create({
         right: 1349,
         borderRadius: Border.br_80xl,
         backgroundColor: Color.greyGrey1,
-        paddingHorizontal: Padding.p_41xl,
+        paddingHorizontal: 73,
         paddingVertical: Padding.p_xs,
         justifyContent: "center",
         alignItems: "center",

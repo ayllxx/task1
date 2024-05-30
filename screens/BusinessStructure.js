@@ -84,14 +84,19 @@ const BusinessStructure = () => {
             />
           </View>
         </View>
-        <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }]}>
-          <Text style={[styles.continue, styles.label1Layout,]}>Continue</Text>
-          <Image
-            style={[styles.fillArrowLeft1, styles.fillLayout]}
-            contentFit="cover"
-            source={require("../assets/-fill--arrowleft1.png")}
-          />
-        </View>
+        <Pressable
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
+                                    onPress={() => {
+                                        navigation.navigate("BusinessRepresentative")
+                                    }}
+                                >
+                                    <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
+                                    <Image
+                                        style={[styles.fillArrowLeft1, styles.fillLayout]}
+                                        resizeMode="cover"  // Changed from contentFit to resizeMode
+                                        source={require("../assets/-fill--arrowleft1.png")}
+                                    />
+                                </Pressable>
       </View>
       <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
         <View style={[styles.groupChild, styles.groupChildLayout2]} />

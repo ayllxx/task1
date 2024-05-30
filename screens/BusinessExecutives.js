@@ -11,7 +11,7 @@ const BusinessExecutives = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessStructure")}
+                onPress={() => navigation.navigate("BusinessOwners")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -54,15 +54,19 @@ them. Learn more`}</Text>
                                         Add an executive
                                     </Text>
                                 </View>
-                                <View style={[styles.continueWithNoOwnersParent, styles.button2FlexBox]}>
-                                    <Text style={[styles.continueWithNo, styles.numberTypo]}>Continue with no exective
-                                    </Text>
+                                <Pressable
+                                    style={[styles.continueWithNoOwnersParent, styles.button2FlexBox]}
+                                    onPress={() => {
+                                        navigation.navigate("BusinessDirectors");
+                                    }}
+                                >
+                                    <Text style={[styles.continueWithNo, styles.numberTypo]}>Continue with no executive</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        contentFit="cover"
+                                        resizeMode="cover"  // Changed from contentFit to resizeMode
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
-                                </View>
+                                </Pressable>
 
 
 

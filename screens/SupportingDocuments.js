@@ -14,7 +14,7 @@ const SupportingDocuments = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessStructure")}
+                onPress={() => navigation.navigate("BankDetails")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -66,14 +66,19 @@ speed the process of verifying your account.`}</Text>
                                     </View>
                                 </View>
 
-                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}>
+                                <Pressable
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}
+                                    onPress={() => {
+                                        navigation.navigate("Authentication");
+                                    }}
+                                >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"  // Changed from contentFit to resizeMode
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
-                                </View>
+                                </Pressable>
 
                             </View>
                         </View>
@@ -93,8 +98,8 @@ speed the process of verifying your account.`}</Text>
                     onPress={() => navigation.navigate("BusinessStructure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
-                    Business structure
-                </Text>
+                        Business structure
+                    </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
@@ -170,7 +175,7 @@ speed the process of verifying your account.`}</Text>
                         Business directors
                     </Text>
                 </Pressable>
-                
+
 
                 <Image
                     style={[styles.groupChild4, styles.groupChildLayout]}
