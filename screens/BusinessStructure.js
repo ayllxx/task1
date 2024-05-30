@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Pressable, TextInput, Image } from "react-native";
+import { View, Text, Pressable, TextInput, Image, StyleSheet } from "react-native";
 import styles from '../styles/BusinessStructureStyles';
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
@@ -8,6 +8,30 @@ import { useState } from "react";
 const BusinessStructure = () => {
   const navigation = useNavigation();
   const [selectedType, setSelectedType] = React.useState(".");
+  const [businessAddress, setBusinessAddress] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [zip, setZip] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
+
+  const isFormValid = () => {
+    return (
+      businessAddress.trim() !== "" &&
+      addressLine1.trim() !== "" &&
+      city.trim() !== "" &&
+      zip.trim() !== "" &&
+      selectedType !== "."
+    );
+  };
+
+  const handleSubmit = () => {
+    if (isFormValid()) {
+      navigation.navigate("BusinessRepresentative");
+    } else {
+      setShowErrors(true);
+    }
+  };
 
   return (
     <View style={styles.view}>
@@ -15,7 +39,6 @@ const BusinessStructure = () => {
       <View style={[styles.button, styles.inputFlexBox]}>
         <Image
           style={styles.outlineLayout}
-
           contentFit=""
           source={require("../assets/-fill--arrowleft.png")}
         />
@@ -39,64 +62,90 @@ const BusinessStructure = () => {
           <View style={styles.frameGroup}>
             <View style={styles.frameGroup}>
               <Text style={styles.label1}>Business address</Text>
+              {showErrors && businessAddress.trim() === "" && (
+                <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+              )}
               <TextInput
                 style={[styles.input, styles.labelTypo, { width: 410 }]}
-                placeholder="Registered business address" // Use placeholder for label
-                placeholderTextColor="#757d8a" // Placeholder text color
+                placeholder="Registered business address"
+                placeholderTextColor="#757d8a"
+                value={businessAddress}
+                onChangeText={(text) => { setBusinessAddress(text); setShowErrors(false); }}
               />
               <Text style={[styles.label1, { marginTop: 10 }]}>Type</Text>
+              {showErrors && selectedType === "." && (
+                <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+              )}
               <Picker
                 style={[styles.input, styles.labelTypo, { width: 410 }]}
                 selectedValue={selectedType}
-                onValueChange={(itemValue) =>
-                  setSelectedType(itemValue)
-                }>
+                onValueChange={(itemValue) => { setSelectedType(itemValue); setShowErrors(false); }}
+              >
                 <Picker.Item label="Type of business" value="." />
                 <Picker.Item label="Business 1" value="business1" />
                 <Picker.Item label="Business 2" value="business2" />
-                {/* Add more Picker.Item components for more options */}
               </Picker>
             </View>
           </View>
           <View style={styles.labelInputsSpaceBlock}>
             <Text style={[styles.label1, styles.label1Layout]}>Address</Text>
-
+            {showErrors && addressLine1.trim() === "" && (
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17, marginTop:1}]}>*You need to fill this field to continue*</Text>
+            )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
-              placeholder="Address line 1" // Use placeholder for label
-              placeholderTextColor="#757d8a" // Placeholder text color
+              placeholder="Address line 1"
+              placeholderTextColor="#757d8a"
+              value={addressLine1}
+              onChangeText={(text) => { setAddressLine1(text); setShowErrors(false); }}
             />
+            {showErrors && city.trim() === "" && (
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+            )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
-              placeholder="Address line 2" // Use placeholder for label
-              placeholderTextColor="#757d8a" // Placeholder text color
+              placeholder="Address line 2"
+              placeholderTextColor="#757d8a"
+              value={addressLine2}
+              onChangeText={(text) => { setAddressLine2(text); setShowErrors(false); }}
             />
-
+            {showErrors && city.trim() === "" && (
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+            )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
-              placeholder="City" // Use placeholder for label
-              placeholderTextColor="#757d8a" // Placeholder text color
+              placeholder="City"
+              placeholderTextColor="#757d8a"
+              value={city}
+              onChangeText={(text) => { setCity(text); setShowErrors(false); }}
             />
+            {showErrors && zip.trim() === "" && (
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+            )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
-              placeholder="Zip" // Use placeholder for label
-              placeholderTextColor="#757d8a" // Placeholder text color
+              placeholder="Zip"
+              placeholderTextColor="#757d8a"
+              value={zip}
+              onChangeText={(text) => { setZip(text); setShowErrors(false); }}
             />
           </View>
         </View>
         <Pressable
-                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
-                                    onPress={() => {
-                                        navigation.navigate("BusinessRepresentative")
-                                    }}
-                                >
-                                    <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
-                                    <Image
-                                        style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        resizeMode="cover"  // Changed from contentFit to resizeMode
-                                        source={require("../assets/-fill--arrowleft1.png")}
-                                    />
-                                </Pressable>
+          style={[
+            styles.continueParent,
+            styles.labelInputsSpaceBlock,
+            { width: 410, height: 34 }
+          ]}
+          onPress={handleSubmit}
+        >
+          <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
+          <Image
+            style={[styles.fillArrowLeft1, styles.fillLayout]}
+            resizeMode="cover"
+            source={require("../assets/-fill--arrowleft1.png")}
+          />
+        </Pressable>
       </View>
       <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
         <View style={[styles.groupChild, styles.groupChildLayout2]} />
@@ -143,10 +192,9 @@ const BusinessStructure = () => {
           </Text>
         </Pressable>
 
-
         <Pressable
           style={[styles.businessRepresentative, styles.businessPosition]}
-          onPress={() => navigation.navigate("BusinessRepresentative")}
+          onPress={handleSubmit}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}
@@ -224,5 +272,13 @@ const BusinessStructure = () => {
   );
 };
 
+const errorTextStyles = StyleSheet.create({
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+  }
+});
+
 export default BusinessStructure;
+
 
