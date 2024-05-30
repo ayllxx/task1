@@ -1,11 +1,13 @@
 import * as React from "react";
-import {View, Text, Pressable, TextInput, Image } from "react-native";
-import styles from '../styles/BusinessStructureStyles'; 
+import { View, Text, Pressable, TextInput, Image } from "react-native";
+import styles from '../styles/BusinessStructureStyles';
 import { useNavigation } from "@react-navigation/native";
-
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 
 const BusinessStructure = () => {
   const navigation = useNavigation();
+  const [selectedType, setSelectedType] = React.useState(".");
 
   return (
     <View style={styles.view}>
@@ -38,45 +40,51 @@ const BusinessStructure = () => {
             <View style={styles.frameGroup}>
               <Text style={styles.label1}>Business address</Text>
               <TextInput
-                style={[styles.input, styles.labelTypo,{ width: 410 }]}
+                style={[styles.input, styles.labelTypo, { width: 410 }]}
                 placeholder="Registered business address" // Use placeholder for label
                 placeholderTextColor="#757d8a" // Placeholder text color
               />
-              <Text style={[styles.label1, {marginTop: 10}]}>Type</Text>
-              <TextInput
-                style={[styles.input, styles.labelTypo,{ width: 410 }]}
-                placeholder="Type of business" // Use placeholder for label
-                placeholderTextColor="#757d8a" // Placeholder text color
-              />
+              <Text style={[styles.label1, { marginTop: 10 }]}>Type</Text>
+              <Picker
+                style={[styles.input, styles.labelTypo, { width: 410 }]}
+                selectedValue={selectedType}
+                onValueChange={(itemValue) =>
+                  setSelectedType(itemValue)
+                }>
+                <Picker.Item label="Type of business" value="." />
+                <Picker.Item label="Business 1" value="business1" />
+                <Picker.Item label="Business 2" value="business2" />
+                {/* Add more Picker.Item components for more options */}
+              </Picker>
             </View>
           </View>
           <View style={styles.labelInputsSpaceBlock}>
             <Text style={[styles.label1, styles.label1Layout]}>Address</Text>
 
-              <TextInput
-                style={[styles.input, styles.labelTypo,{ width: 410 }]}
-                placeholder="Address line 1" // Use placeholder for label
-                placeholderTextColor="#757d8a" // Placeholder text color
-              />
-              <TextInput
-                style={[styles.input, styles.labelTypo,{ width: 410 }]}
-                placeholder="Address line 2" // Use placeholder for label
-                placeholderTextColor="#757d8a" // Placeholder text color
-              />
-              
-              <TextInput
-                style={[styles.input, styles.labelTypo,{ width: 410 }]}
-                placeholder="City" // Use placeholder for label
-                placeholderTextColor="#757d8a" // Placeholder text color
-              />
             <TextInput
-                style={[styles.input, styles.labelTypo,{ width: 410 }]}
-                placeholder="Zip" // Use placeholder for label
-                placeholderTextColor="#757d8a" // Placeholder text color
-              />
+              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              placeholder="Address line 1" // Use placeholder for label
+              placeholderTextColor="#757d8a" // Placeholder text color
+            />
+            <TextInput
+              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              placeholder="Address line 2" // Use placeholder for label
+              placeholderTextColor="#757d8a" // Placeholder text color
+            />
+
+            <TextInput
+              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              placeholder="City" // Use placeholder for label
+              placeholderTextColor="#757d8a" // Placeholder text color
+            />
+            <TextInput
+              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              placeholder="Zip" // Use placeholder for label
+              placeholderTextColor="#757d8a" // Placeholder text color
+            />
           </View>
         </View>
-        <View style={[styles.continueParent, styles.labelInputsSpaceBlock,{ width: 410 }]}>
+        <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }]}>
           <Text style={[styles.continue, styles.label1Layout,]}>Continue</Text>
           <Image
             style={[styles.fillArrowLeft1, styles.fillLayout]}
@@ -129,8 +137,8 @@ const BusinessStructure = () => {
             Overview
           </Text>
         </Pressable>
-        
-        
+
+
         <Pressable
           style={[styles.businessRepresentative, styles.businessPosition]}
           onPress={() => navigation.navigate("BusinessRepresentative")}

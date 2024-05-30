@@ -2,11 +2,14 @@ import * as React from "react";
 import { Image, View, Pressable, Text, TextInput } from "react-native";
 import styles from "../styles/BusinessRepresentativeStyles";
 import { useNavigation } from "@react-navigation/native";
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 
-import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
+
 
 const BusinessRepresentative = () => {
     const navigation = useNavigation();
+    const [selectedValue, setSelectedValue] = useState("+353");  // Use useState here
 
     return (
         <View style={styles.view}>
@@ -36,12 +39,12 @@ const BusinessRepresentative = () => {
                                 <Text style={[styles.label1, styles.label1Typo]}>Name</Text>
                                 <View style={{ flexDirection: 'row' }}>  {/* This line keeps the name inputs side by side */}
                                     <TextInput
-                                        style={[styles.input, styles.labelTypo, { flex: 1, marginRight: 8, width:205 }]}  // Adjust style here
+                                        style={[styles.input, styles.labelTypo, { flex: 1, marginRight: 8, width: 205 }]}  // Adjust style here
                                         placeholder="First Name"
                                         placeholderTextColor="#757d8a"
                                     />
                                     <TextInput
-                                        style={[styles.input, styles.labelTypo, { flex: 1 , width:205}]}  // Adjust style here
+                                        style={[styles.input, styles.labelTypo, { flex: 1, width: 205 }]}  // Adjust style here
                                         placeholder="Last Name"
                                         placeholderTextColor="#757d8a"
                                     />
@@ -73,13 +76,28 @@ const BusinessRepresentative = () => {
                                     placeholder="Zip"
                                     placeholderTextColor="#757d8a"
                                 />
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone</Text>
-                                <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
-                                    placeholder="Phone"
-                                    placeholderTextColor="#757d8a"
-                                />
-                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 40 }]}>
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone 1</Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                                    <Picker
+                                        style={[styles.input, styles.labelTypo, { width: 121 }]}
+                                        selectedValue={selectedValue}  // Use selectedValue here
+                                        onValueChange={(itemValue, itemIndex) =>
+                                            setSelectedValue(itemValue)  // Use setSelectedValue here
+                                        }>
+                                        <Picker.Item label="+353" value="+353" />
+                                        <Picker.Item label="+354" value="+354" />
+                                        <Picker.Item label="+355" value="+355" />
+
+                                    </Picker>
+
+                                    <TextInput
+                                        style={[styles.input, styles.labelTypo, { width: 289 }]}  // Adjusted width
+                                        placeholder="085 1234567"
+                                        placeholderTextColor="#757d8a"
+                                    />
+                                </View>
+                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}>
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
@@ -108,8 +126,8 @@ const BusinessRepresentative = () => {
                     onPress={() => navigation.navigate("BusinessStructure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
-                    Business structure
-                </Text>
+                        Business structure
+                    </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
@@ -185,7 +203,7 @@ const BusinessRepresentative = () => {
                         Business directors
                     </Text>
                 </Pressable>
-                
+
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"

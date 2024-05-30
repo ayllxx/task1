@@ -73,7 +73,7 @@ const BankDetails = () => {
                                     placeholderTextColor="#757d8a"
                                 />
 
-                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 40 }]}>
+                                <View style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}>
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
