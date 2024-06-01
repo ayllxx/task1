@@ -1,14 +1,38 @@
 import * as React from "react";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
+import { StyleSheet, View, Pressable, Text, TextInput, Alert } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/BusinessDetailsStyles";
 import { useState } from "react";
-import { Picker } from "@react-native-picker/picker"
+import { Picker } from "@react-native-picker/picker";
 
 const BusinessDetails = () => {
     const navigation = useNavigation();
-    const [selectedIndustry, setSelectedIndustry] = useState(".");  // Use useState here
+    const [selectedIndustry, setSelectedIndustry] = useState(".");
+    const [vatNumber, setVatNumber] = useState("");
+    const [website, setWebsite] = useState("");
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        if (!vatNumber) newErrors.vatNumber = "VAT Number is required";
+        if (selectedIndustry === ".") newErrors.industry = "Industry is required";
+        if (!website) newErrors.website = "Organization website is required";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleContinue = () => {
+        if (validate()) {
+            navigation.navigate("BusinessOwners");
+        } else {
+            Alert.alert("Validation Error", "Please fill all required fields");
+        }
+    };
+
+    const clearErrors = () => {
+        setErrors({});
+    };
 
     return (
         <View style={styles.view}>
@@ -27,7 +51,6 @@ const BusinessDetails = () => {
                 Account verification
             </Text>
             <View style={styles.badge}>
-
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
             <View style={styles.inner}>
@@ -36,43 +59,51 @@ const BusinessDetails = () => {
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
                                 <Text style={[styles.label1, styles.label1Typo]}>VAT</Text>
+                                {errors.vatNumber && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.vatNumber}</Text>}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="VAT Number"
                                     placeholderTextColor="#757d8a"
+                                    value={vatNumber}
+                                    onChangeText={setVatNumber}
+                                    onFocus={clearErrors}
                                 />
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
-
-
+                                {errors.industry && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.industry}</Text>}
                                 <Picker
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     selectedValue={selectedIndustry}
-                                    onValueChange={(itemValue, itemIndex) =>
-                                        setSelectedIndustry(itemValue)
-                                    }>
+                                    onValueChange={(itemValue) => {
+                                        setSelectedIndustry(itemValue);
+                                        clearErrors();
+                                    }}
+                                >
                                     <Picker.Item label="Please select your industry..." value="." />
                                     <Picker.Item label="Industry 1" value="industry1" />
                                     <Picker.Item label="Industry 2" value="industry2" />
                                     <Picker.Item label="Industry 3" value="industry3" />
                                 </Picker>
+
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>
+                                {errors.website && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.website}</Text>}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="www.example.com"
                                     placeholderTextColor="#757d8a"
+                                    value={website}
+                                    onChangeText={setWebsite}
+                                    onFocus={clearErrors}
                                 />
 
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
-                                    onPress={() => {
-                                        navigation.navigate("BusinessOwners")
-                                    }}
+                                    onPress={handleContinue}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        resizeMode="cover"  // Changed from contentFit to resizeMode
+                                        resizeMode="cover"
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
                                 </Pressable>
@@ -81,7 +112,6 @@ const BusinessDetails = () => {
                     </View>
                 </View>
             </View>
-
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -210,6 +240,5 @@ const BusinessDetails = () => {
         </View>
     );
 };
-
 
 export default BusinessDetails;

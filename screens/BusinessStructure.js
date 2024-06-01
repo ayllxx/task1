@@ -63,7 +63,7 @@ const BusinessStructure = () => {
             <View style={styles.frameGroup}>
               <Text style={styles.label1}>Business address</Text>
               {showErrors && businessAddress.trim() === "" && (
-                <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+                <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*Registered Business Address is required*</Text>
               )}
               <TextInput
                 style={[styles.input, styles.labelTypo, { width: 410 }]}
@@ -74,7 +74,7 @@ const BusinessStructure = () => {
               />
               <Text style={[styles.label1, { marginTop: 10 }]}>Type</Text>
               {showErrors && selectedType === "." && (
-                <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+                <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*Type of Business is required*</Text>
               )}
               <Picker
                 style={[styles.input, styles.labelTypo, { width: 410 }]}
@@ -90,7 +90,7 @@ const BusinessStructure = () => {
           <View style={styles.labelInputsSpaceBlock}>
             <Text style={[styles.label1, styles.label1Layout]}>Address</Text>
             {showErrors && addressLine1.trim() === "" && (
-              <Text style={[errorTextStyles.errorText, {marginBottom:-17, marginTop:1}]}>*You need to fill this field to continue*</Text>
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17, marginTop:1}]}>*Address Line 1 is required*</Text>
             )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
@@ -99,9 +99,7 @@ const BusinessStructure = () => {
               value={addressLine1}
               onChangeText={(text) => { setAddressLine1(text); setShowErrors(false); }}
             />
-            {showErrors && city.trim() === "" && (
-              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
-            )}
+            
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
               placeholder="Address line 2"
@@ -110,7 +108,7 @@ const BusinessStructure = () => {
               onChangeText={(text) => { setAddressLine2(text); setShowErrors(false); }}
             />
             {showErrors && city.trim() === "" && (
-              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*City is required*</Text>
             )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
@@ -120,11 +118,11 @@ const BusinessStructure = () => {
               onChangeText={(text) => { setCity(text); setShowErrors(false); }}
             />
             {showErrors && zip.trim() === "" && (
-              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*You need to fill this field to continue*</Text>
+              <Text style={[errorTextStyles.errorText, {marginBottom:-17,marginTop:1}]}>*ZIP is required*</Text>
             )}
             <TextInput
               style={[styles.input, styles.labelTypo, { width: 410 }]}
-              placeholder="Zip"
+              placeholder="ZIP"
               placeholderTextColor="#757d8a"
               value={zip}
               onChangeText={(text) => { setZip(text); setShowErrors(false); }}
@@ -194,7 +192,7 @@ const BusinessStructure = () => {
 
         <Pressable
           style={[styles.businessRepresentative, styles.businessPosition]}
-          onPress={handleSubmit}
+          onPress={() => navigation.navigate("BusinessRepresentative")}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}

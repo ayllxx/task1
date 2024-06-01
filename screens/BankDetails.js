@@ -1,16 +1,42 @@
 import * as React from "react";
 import { useState } from "react";
-import { Image, View, Pressable, Text, TextInput } from "react-native";
+import { Image, View, Pressable, Text, TextInput, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
 import styles from "../styles/BankDetailsStyles";
 
 const BankDetails = () => {
     const navigation = useNavigation();
-    const [selectedCurrency, setSelectedCurrency] = useState("."); // useState hook to manage selected currency
+    const [selectedCurrency, setSelectedCurrency] = useState(".");
     const [selectedCountry, setSelectedCountry] = useState(".");
-    return (
+    const [iban, setIban] = useState("");
+    const [confirmIban, setConfirmIban] = useState("");
+    const [errors, setErrors] = useState({});
 
+    const validate = () => {
+        const newErrors = {};
+        if (selectedCurrency === ".") newErrors.currency = "Currency is required";
+        if (selectedCountry === ".") newErrors.country = "Country of Bank Account is required";
+        if (!iban) newErrors.iban = "IBAN is required";
+        if (!confirmIban) newErrors.confirmIban = "Confirm IBAN is required";
+        if (iban !== confirmIban) newErrors.confirmIban = "IBANs do not match";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleContinue = () => {
+        if (validate()) {
+            navigation.navigate("SupportingDocuments");
+        } else {
+            Alert.alert("Validation Error", "Please fill all required fields correctly");
+        }
+    };
+
+    const clearErrors = () => {
+        setErrors({});
+    };
+
+    return (
         <View style={styles.view}>
             <View style={styles.child} />
             <Pressable
@@ -27,7 +53,6 @@ const BankDetails = () => {
                 Account verification
             </Text>
             <View style={styles.badge}>
-
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
             <View style={styles.inner}>
@@ -35,60 +60,71 @@ const BankDetails = () => {
                     <View style={styles.frameGroup}>
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
-
                                 <Text style={[styles.label1, styles.label1Typo]}>Currency</Text>
+                                {errors.currency && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.currency}</Text>}
                                 <Picker
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     selectedValue={selectedCurrency}
-                                    onValueChange={(itemValue) =>
-                                        setSelectedCurrency(itemValue)
-                                    }>
-                                    <Picker.Item label="Select a currency..." value="" />
+                                    onValueChange={(itemValue) => {
+                                        setSelectedCurrency(itemValue);
+                                        clearErrors();
+                                    }}
+                                >
+                                    <Picker.Item label="Select a currency..." value="." />
                                     <Picker.Item label="USD" value="usd" />
                                     <Picker.Item label="EUR" value="eur" />
                                     <Picker.Item label="GBP" value="gbp" />
                                 </Picker>
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Country of Bank Account</Text>
+                                {errors.country && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.country}</Text>}
                                 <Picker
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     selectedValue={selectedCountry}
-                                    onValueChange={(itemValue) =>
-                                        setSelectedCountry(itemValue)
-                                    }>
+                                    onValueChange={(itemValue) => {
+                                        setSelectedCountry(itemValue);
+                                        clearErrors();
+                                    }}
+                                >
                                     <Picker.Item label="Country" value="." />
-                                    <Picker.Item label="Ireland" value="usd" />
-                                    <Picker.Item label="UK" value="eur" />
-                                    <Picker.Item label="US" value="gbp" />
+                                    <Picker.Item label="Ireland" value="ireland" />
+                                    <Picker.Item label="UK" value="uk" />
+                                    <Picker.Item label="US" value="us" />
                                 </Picker>
+
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>IBAN</Text>
+                                {errors.iban && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.iban}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Enter your IBAN"
                                     placeholderTextColor="#757d8a"
+                                    value={iban}
+                                    onChangeText={setIban}
+                                    onFocus={clearErrors}
                                 />
+                                
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Confirm IBAN</Text>
+                                {errors.confirmIban && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.confirmIban}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Confirm IBAN"
                                     placeholderTextColor="#757d8a"
+                                    value={confirmIban}
+                                    onChangeText={setConfirmIban}
+                                    onFocus={clearErrors}
                                 />
 
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}
-                                    onPress={() => {
-                                        navigation.navigate("SupportingDocuments");
-                                    }}
+                                    onPress={handleContinue}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        resizeMode="cover"  // Changed from contentFit to resizeMode
+                                        resizeMode="cover"
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
                                 </Pressable>
-
-
-
                             </View>
                         </View>
                     </View>
@@ -233,7 +269,6 @@ const BankDetails = () => {
                 </View>
             </View>
             <View style={[styles.item, styles.itemGroupLayout]} />
-
         </View>
     );
 };

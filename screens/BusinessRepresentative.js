@@ -1,16 +1,47 @@
 import * as React from "react";
-import { Image, View, Pressable, Text, TextInput } from "react-native";
+import { Image, View, Pressable, Text, TextInput, Alert } from "react-native";
 import styles from "../styles/BusinessRepresentativeStyles";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 
-
-
-
 const BusinessRepresentative = () => {
     const navigation = useNavigation();
-    const [selectedValue, setSelectedValue] = useState("+353");  // Use useState here
+    const [selectedValue, setSelectedValue] = useState("+353");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [addressLine1, setAddressLine1] = useState("");
+    const [addressLine2, setAddressLine2] = useState("");
+    const [city, setCity] = useState("");
+    const [zip, setZip] = useState("");
+    const [phone, setPhone] = useState("");
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        if (!firstName) newErrors.firstName = "*First Name is required*";
+        if (!lastName) newErrors.lastName = "*Last Name is required*";
+        if (!email) newErrors.email = "*Email is required*";
+        else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "*Email is invalid*";
+        if (!addressLine1) newErrors.addressLine1 = "*Address Line 1 is required*";
+        if (!city) newErrors.city = "*City is required*";
+        if (!zip) newErrors.zip = "*Zip is required*";
+        if (!phone) newErrors.phone = "*Phone number is required*";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleContinue = () => {
+        if (validate()) {
+            navigation.navigate("BusinessDetails");
+        } else {
+            Alert.alert("Validation Error", "Please fill all required fields");
+        }
+    };
+    const clearAllErrors = () => {
+        setErrors({});
+    };
 
     return (
         <View style={styles.view}>
@@ -29,7 +60,6 @@ const BusinessRepresentative = () => {
                 Account verification
             </Text>
             <View style={styles.badge}>
-
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
             <View style={styles.inner}>
@@ -38,88 +68,114 @@ const BusinessRepresentative = () => {
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
                                 <Text style={[styles.label1, styles.label1Typo]}>Name</Text>
-                                <View style={{ flexDirection: 'row' }}>  {/* This line keeps the name inputs side by side */}
-                                    <TextInput
-                                        style={[styles.input, styles.labelTypo, { flex: 1, marginRight: 8, width: 205 }]}  // Adjust style here
-                                        placeholder="First Name"
-                                        placeholderTextColor="#757d8a"
-                                    />
-                                    <TextInput
-                                        style={[styles.input, styles.labelTypo, { flex: 1, width: 205 }]}  // Adjust style here
-                                        placeholder="Last Name"
-                                        placeholderTextColor="#757d8a"
-                                    />
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={{ flex: 1, width: 205 }}>
+                                        {errors.firstName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1,fontSize: 12, }}>{errors.firstName}</Text>}
+                                        <TextInput
+                                            style={[styles.input, styles.labelTypo, { marginRight: 10, width: 200 }]}
+                                            placeholder="First Name"
+                                            placeholderTextColor="#757d8a"
+                                            value={firstName}
+                                            onChangeText={setFirstName}
+                                            onFocus={() => clearAllErrors()}
+                                        />
+                                    </View>
+                                    <View >
+                                    {errors.lastName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1,fontSize: 12, }}>{errors.lastName}</Text>}
+                                        <TextInput
+                                            style={[styles.input, styles.labelTypo, { flex: 1, width: 200 }]}
+                                            placeholder="Last Name"
+                                            placeholderTextColor="#757d8a"
+                                            value={lastName}
+                                            onChangeText={setLastName}
+                                            onFocus={() => clearAllErrors()}
+                                        />
+                                    </View>
                                 </View>
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Email</Text>
+                                {errors.email && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1,fontSize: 12, }}>{errors.email}</Text>}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Email"
                                     placeholderTextColor="#757d8a"
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    onFocus={() => clearAllErrors()}
                                 />
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
+                                {errors.addressLine1 && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.addressLine1}</Text>}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Address Line 1"
                                     placeholderTextColor="#757d8a"
+                                    value={addressLine1}
+                                    onChangeText={setAddressLine1}
+                                    onFocus={() => clearAllErrors()}
                                 />
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Address Line 2"
                                     placeholderTextColor="#757d8a"
+                                    value={addressLine2}
+                                    onFocus={() => clearAllErrors()}
                                 />
+                                {errors.city && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1,fontSize: 12, }}>{errors.city}</Text>}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="City"
                                     placeholderTextColor="#757d8a"
+                                    value={city}
+                                    onChangeText={setCity}
+                                    onFocus={() => clearAllErrors()}
                                 />
+                                {errors.zip && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1,fontSize: 12, }}>{errors.zip}</Text>}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}  // Style for email input
+                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Zip"
                                     placeholderTextColor="#757d8a"
+                                    value={zip}
+                                    onChangeText={setZip}
+                                    onFocus={() => clearAllErrors()}
                                 />
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone </Text>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone</Text>
+                                <View style={{ flexDirection: 'row' }}>
                                     <Picker
                                         style={[styles.input, styles.labelTypo, { width: 121 }]}
-                                        selectedValue={selectedValue}  // Use selectedValue here
-                                        onValueChange={(itemValue, itemIndex) =>
-                                            setSelectedValue(itemValue)  // Use setSelectedValue here
-                                        }>
+                                        selectedValue={selectedValue}
+                                        onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                                    >
                                         <Picker.Item label="+353" value="+353" />
                                         <Picker.Item label="+354" value="+354" />
                                         <Picker.Item label="+355" value="+355" />
-
                                     </Picker>
-
-                                    <TextInput
-                                        style={[styles.input, styles.labelTypo, { width: 289 }]}  // Adjusted width
-                                        placeholder="085 1234567"
-                                        placeholderTextColor="#757d8a"
-                                    />
+                                    <View style={{ width: 249 }}>
+                                    {errors.phone && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1,fontSize: 12, }}>{errors.phone}</Text>}
+                                        <TextInput
+                                            style={[styles.input, styles.labelTypo, { width: 289 }]}
+                                            placeholder="085 1234567"
+                                            placeholderTextColor="#757d8a"
+                                            value={phone}
+                                            onChangeText={setPhone}
+                                            onFocus={() => clearAllErrors()}
+                                        />
+                                    </View>
                                 </View>
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
-                                    onPress={() => {
-                                        navigation.navigate("BusinessDetails")
-                                    }}
+                                    onPress={handleContinue}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        resizeMode="cover"  // Changed from contentFit to resizeMode
+                                        resizeMode="cover"
                                         source={require("../assets/-fill--arrowleft1.png")}
                                     />
                                 </Pressable>
-
-
-
                             </View>
                         </View>
                     </View>
                 </View>
             </View>
-
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -209,7 +265,6 @@ const BusinessRepresentative = () => {
                         Business directors
                     </Text>
                 </Pressable>
-
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"
@@ -249,6 +304,4 @@ const BusinessRepresentative = () => {
     );
 };
 
-
 export default BusinessRepresentative;
-
