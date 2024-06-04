@@ -90,9 +90,9 @@ const BankDetails = () => {
                                     }}
                                 >
                                     <Picker.Item label="Select a currency..." value="." />
-                                    <Picker.Item label="USD" value="usd" />
-                                    <Picker.Item label="EUR" value="eur" />
-                                    <Picker.Item label="GBP" value="gbp" />
+                                    <Picker.Item label="USD" value="USD" />
+                                    <Picker.Item label="EUR" value="EUR" />
+                                    <Picker.Item label="GBP" value="GBP" />
                                 </Picker>
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Country of Bank Account</Text>
@@ -106,9 +106,9 @@ const BankDetails = () => {
                                     }}
                                 >
                                     <Picker.Item label="Country" value="." />
-                                    <Picker.Item label="Ireland" value="ireland" />
-                                    <Picker.Item label="UK" value="uk" />
-                                    <Picker.Item label="US" value="us" />
+                                    <Picker.Item label="Ireland" value="Ireland" />
+                                    <Picker.Item label="UK" value="UK" />
+                                    <Picker.Item label="USA" value="USA" />
                                 </Picker>
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>IBAN</Text>

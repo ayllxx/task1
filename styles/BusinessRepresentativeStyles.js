@@ -103,13 +103,15 @@ export default StyleSheet.create({
         right: 1349,
         borderRadius: Border.br_80xl,
         backgroundColor: Color.greyGrey1,
-        paddingHorizontal: Padding.p_41xl,
-        paddingVertical: Padding.p_xs,
+        paddingHorizontal: 60,
+        paddingVertical: 12,
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        left: 40,
+        left: 55,
         position: "absolute",
+        width: 62, // replace with your desired width
+        height: 48, // replace with your desired height
     },
     accountVerification: {
         top: 42,

@@ -98,9 +98,9 @@ const BusinessDetails = () => {
                                     }}
                                 >
                                     <Picker.Item label="Please select your industry..." value="." />
-                                    <Picker.Item label="Industry 1" value="industry1" />
-                                    <Picker.Item label="Industry 2" value="industry2" />
-                                    <Picker.Item label="Industry 3" value="industry3" />
+                                    <Picker.Item label="Industry 1" value="Industry 1" />
+                                    <Picker.Item label="Industry 2" value="Industry 2" />
+                                    <Picker.Item label="Industry 3" value="Industry 3" />
                                 </Picker>
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>

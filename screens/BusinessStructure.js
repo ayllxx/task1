@@ -103,8 +103,8 @@ const BusinessStructure = () => {
                 onValueChange={(itemValue) => { setSelectedType(itemValue); setShowErrors(false); }}
               >
                 <Picker.Item label="Type of business" value="." />
-                <Picker.Item label="Business 1" value="business1" />
-                <Picker.Item label="Business 2" value="business2" />
+                <Picker.Item label="Business 1" value="Business 1" />
+                <Picker.Item label="Business 2" value="Business 2" />
               </Picker>
             </View>
           </View>
