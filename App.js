@@ -36,42 +36,42 @@ const App = () => {
         {hideSplashScreen && (
           <>
             <Stack.Screen
-              name="BusinessStructure"
+              name="Business Structure"
               component={BusinessStructure}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="BusinessRepresentative"
+              name="Business Representative"
               component={BusinessRepresentative}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="BusinessDetails"
+              name="Business Details"
               component={BusinessDetails}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="BusinessOwners"
+              name="Business Owners"
               component={BusinessOwners}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="BusinessExecutives"
+              name="Business Executives"
               component={BusinessExecutives}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="BusinessDirectors"
+              name="Business Directors"
               component={BusinessDirectors}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="BankDetails"
+              name="Bank Details"
               component={BankDetails}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="SupportingDocuments"
+              name="Supporting Documents"
               component={SupportingDocuments}
               options={{ headerShown: false }}
               

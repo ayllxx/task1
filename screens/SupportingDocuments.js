@@ -14,7 +14,7 @@ const SupportingDocuments = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BankDetails")}
+                onPress={() => navigation.navigate("Bank Details")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -103,7 +103,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BankDetails")}
+                    onPress={() => navigation.navigate("Bank Details")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -111,7 +111,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("SupportingDocuments")}
+                    onPress={() => navigation.navigate("Supporting Documents")}
                 >
                     <Text style={[styles.bankDetails2, styles.label1Typo]}>
                         Supporting documents
@@ -137,7 +137,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessRepresentative")}
+                    onPress={() => navigation.navigate("Business Representative")}
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -145,7 +145,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDetails")}
+                    onPress={() => navigation.navigate("Business Details")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -153,7 +153,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessOwners")}
+                    onPress={() => navigation.navigate("Business Owners")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -161,7 +161,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessExecutives")}
+                    onPress={() => navigation.navigate("Business Executives")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
@@ -169,7 +169,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDirectors")}
+                    onPress={() => navigation.navigate("Business Directors")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors

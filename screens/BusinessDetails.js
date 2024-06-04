@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Pressable, Text, TextInput, Alert } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/BusinessDetailsStyles";
-import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
+import { firestore } from '../firebase'; // Adjust the import path as needed
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 const BusinessDetails = () => {
     const navigation = useNavigation();
@@ -12,26 +13,44 @@ const BusinessDetails = () => {
     const [vatNumber, setVatNumber] = useState("");
     const [website, setWebsite] = useState("");
     const [errors, setErrors] = useState({});
+    const [submissionStatus, setSubmissionStatus] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const validate = () => {
         const newErrors = {};
-        if (!vatNumber) newErrors.vatNumber = "VAT Number is required";
-        if (selectedIndustry === ".") newErrors.industry = "Industry is required";
-        if (!website) newErrors.website = "Organization website is required";
+        if (!vatNumber) newErrors.vatNumber = "*VAT Number is required*";
+        if (selectedIndustry === ".") newErrors.industry = "*Industry is required*";
+        if (!website) newErrors.website = "*Organization website is required*";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleContinue = () => {
+    const handleSubmit = async () => {
         if (validate()) {
-            navigation.navigate("BusinessOwners");
+            try {
+                // Save data to Firestore
+                await addDoc(collection(firestore, 'businessDetails'), {
+                    vatNumber,
+                    selectedIndustry,
+                    website,
+                    timestamp: serverTimestamp()
+                });
+                setSubmissionStatus("Data submitted successfully!");
+                setErrorMessage("");
+                navigation.navigate("Business Owners");
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                setErrorMessage("Error submitting data. Please try again.");
+            }
         } else {
-            Alert.alert("Validation Error", "Please fill all required fields");
+            setErrorMessage("Please fill all required fields");
         }
     };
 
-    const clearErrors = () => {
+    const clearAllErrors = () => {
         setErrors({});
+        setErrorMessage("");
+        setSubmissionStatus("");
     };
 
     return (
@@ -39,7 +58,7 @@ const BusinessDetails = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessRepresentative")}
+                onPress={() => navigation.navigate("Business Representative")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -65,8 +84,7 @@ const BusinessDetails = () => {
                                     placeholder="VAT Number"
                                     placeholderTextColor="#757d8a"
                                     value={vatNumber}
-                                    onChangeText={setVatNumber}
-                                    onFocus={clearErrors}
+                                    onChangeText={(text) => { setVatNumber(text); clearAllErrors(); }}
                                 />
 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
@@ -76,7 +94,7 @@ const BusinessDetails = () => {
                                     selectedValue={selectedIndustry}
                                     onValueChange={(itemValue) => {
                                         setSelectedIndustry(itemValue);
-                                        clearErrors();
+                                        clearAllErrors();
                                     }}
                                 >
                                     <Picker.Item label="Please select your industry..." value="." />
@@ -92,13 +110,18 @@ const BusinessDetails = () => {
                                     placeholder="www.example.com"
                                     placeholderTextColor="#757d8a"
                                     value={website}
-                                    onChangeText={setWebsite}
-                                    onFocus={clearErrors}
+                                    onChangeText={(text) => { setWebsite(text); clearAllErrors(); }}
                                 />
+
+                                {submissionStatus ? (
+                                    <Text style={successTextStyles.successText}>{submissionStatus}</Text>
+                                ) : errorMessage ? (
+                                    <Text style={errorTextStyles.errorText}>{errorMessage}</Text>
+                                ) : null}
 
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
-                                    onPress={handleContinue}
+                                    onPress={handleSubmit}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
@@ -121,7 +144,7 @@ const BusinessDetails = () => {
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BusinessStructure")}
+                    onPress={() => navigation.navigate("Business Structure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -129,7 +152,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BankDetails")}
+                    onPress={() => navigation.navigate("Bank Details")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -137,7 +160,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("SupportingDocuments")}
+                    onPress={() => navigation.navigate("Supporting Documents")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -163,7 +186,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessRepresentative")}
+                    onPress={() => navigation.navigate("Business Representative")}
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -171,7 +194,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDetails")}
+                    onPress={() => navigation.navigate("Business Details")}
                 >
                     <Text style={[styles.businessRepresentative2, styles.businessTypo]}>
                         Business details
@@ -179,7 +202,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessOwners")}
+                    onPress={() => navigation.navigate("Business Owners")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -187,7 +210,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessExecutives")}
+                    onPress={() => navigation.navigate("Business Executives")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
@@ -195,7 +218,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDirectors")}
+                    onPress={() => navigation.navigate("Business Directors")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
@@ -240,5 +263,19 @@ const BusinessDetails = () => {
         </View>
     );
 };
+
+const errorTextStyles = StyleSheet.create({
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+    }
+});
+
+const successTextStyles = StyleSheet.create({
+    successText: {
+        color: 'green',
+        fontSize: 12,
+    }
+});
 
 export default BusinessDetails;

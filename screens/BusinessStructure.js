@@ -1,19 +1,22 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { View, Text, Pressable, TextInput, Image, StyleSheet } from "react-native";
-import styles from '../styles/BusinessStructureStyles';
-import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { firestore } from '../firebase'; // Adjust the import path as needed
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import styles from '../styles/BusinessStructureStyles'; // Adjust import path as needed
 
 const BusinessStructure = () => {
   const navigation = useNavigation();
-  const [selectedType, setSelectedType] = React.useState(".");
+  const [selectedType, setSelectedType] = useState(".");
   const [businessAddress, setBusinessAddress] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [showErrors, setShowErrors] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const isFormValid = () => {
     return (
@@ -25,9 +28,27 @@ const BusinessStructure = () => {
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isFormValid()) {
-      navigation.navigate("BusinessRepresentative");
+      try {
+        // Save data to Firestore
+        await addDoc(collection(firestore, 'businessStructure'), {
+          businessAddress,
+          addressLine1,
+          addressLine2,
+          city,
+          zip,
+          selectedType,
+          timestamp: serverTimestamp(),
+          
+        });
+        setSubmissionStatus("Data submitted successfully!");
+        setErrorMessage("");
+        navigation.navigate("Business Representative");
+      } catch (error) {
+        console.error("Error adding document: ", error);
+        setErrorMessage("Error submitting data. Please try again.");
+      }
     } else {
       setShowErrors(true);
     }
@@ -129,6 +150,11 @@ const BusinessStructure = () => {
             />
           </View>
         </View>
+        {submissionStatus ? (
+          <Text style={successTextStyles.successText}>{submissionStatus}</Text>
+        ) : errorMessage ? (
+          <Text style={errorTextStyles.errorText}>{errorMessage}</Text>
+        ) : null}
         <Pressable
           style={[
             styles.continueParent,
@@ -157,7 +183,7 @@ const BusinessStructure = () => {
         </Text>
         <Pressable
           style={[styles.bankDetails, styles.overviewPosition]}
-          onPress={() => navigation.navigate("BankDetails")}
+          onPress={() => navigation.navigate("Bank Details")}
         >
           <Text style={[styles.bankDetails1, styles.businessFlexBox]}>
             Bank details
@@ -165,7 +191,7 @@ const BusinessStructure = () => {
         </Pressable>
         <Pressable
           style={[styles.supportingDocuments, styles.overviewPosition]}
-          onPress={() => navigation.navigate("SupportingDocuments")}
+          onPress={() => navigation.navigate("Supporting Documents")}
         >
           <Text style={[styles.bankDetails1, styles.businessFlexBox]}>
             Supporting documents
@@ -192,7 +218,7 @@ const BusinessStructure = () => {
 
         <Pressable
           style={[styles.businessRepresentative, styles.businessPosition]}
-          onPress={() => navigation.navigate("BusinessRepresentative")}
+          onPress={() => navigation.navigate("Business Representative")}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}
@@ -202,7 +228,7 @@ const BusinessStructure = () => {
         </Pressable>
         <Pressable
           style={[styles.businessDetails, styles.businessPosition]}
-          onPress={() => navigation.navigate("BusinessDetails")}
+          onPress={() => navigation.navigate("Business Details")}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}
@@ -212,7 +238,7 @@ const BusinessStructure = () => {
         </Pressable>
         <Pressable
           style={[styles.businessOwners, styles.businessPosition]}
-          onPress={() => navigation.navigate("BusinessOwners")}
+          onPress={() => navigation.navigate("Business Owners")}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}
@@ -222,7 +248,7 @@ const BusinessStructure = () => {
         </Pressable>
         <Pressable
           style={[styles.businessExecutives, styles.businessPosition]}
-          onPress={() => navigation.navigate("BusinessExecutives")}
+          onPress={() => navigation.navigate("Business Executives")}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}
@@ -232,7 +258,7 @@ const BusinessStructure = () => {
         </Pressable>
         <Pressable
           style={[styles.businessDirectors, styles.businessPosition]}
-          onPress={() => navigation.navigate("BusinessDirectors")}
+          onPress={() => navigation.navigate("Business Directors")}
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}
@@ -277,6 +303,11 @@ const errorTextStyles = StyleSheet.create({
   }
 });
 
+const successTextStyles = StyleSheet.create({
+  successText: {
+    color: 'green',
+    fontSize: 12,
+  }
+});
+
 export default BusinessStructure;
-
-

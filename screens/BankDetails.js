@@ -1,8 +1,9 @@
-import * as React from "react";
-import { useState } from "react";
-import { Image, View, Pressable, Text, TextInput, Alert } from "react-native";
+import React, { useState } from "react";
+import { Image, View, Pressable, Text, TextInput, Alert, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
+import { firestore } from '../firebase'; // Adjust the import path as needed
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import styles from "../styles/BankDetailsStyles";
 
 const BankDetails = () => {
@@ -12,28 +13,46 @@ const BankDetails = () => {
     const [iban, setIban] = useState("");
     const [confirmIban, setConfirmIban] = useState("");
     const [errors, setErrors] = useState({});
+    const [submissionStatus, setSubmissionStatus] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const validate = () => {
         const newErrors = {};
-        if (selectedCurrency === ".") newErrors.currency = "Currency is required";
-        if (selectedCountry === ".") newErrors.country = "Country of Bank Account is required";
-        if (!iban) newErrors.iban = "IBAN is required";
-        if (!confirmIban) newErrors.confirmIban = "Confirm IBAN is required";
-        if (iban !== confirmIban) newErrors.confirmIban = "IBANs do not match";
+        if (selectedCurrency === ".") newErrors.currency = "*Currency is required*";
+        if (selectedCountry === ".") newErrors.country = "*Country of Bank Account is required*";
+        if (!iban) newErrors.iban = "*IBAN is required*";
+        if (!confirmIban) newErrors.confirmIban = "*Confirm IBAN is required*";
+        if (iban !== confirmIban) newErrors.confirmIban = "*IBANs do not match*";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleContinue = () => {
+    const handleSubmit = async () => {
         if (validate()) {
-            navigation.navigate("SupportingDocuments");
+            try {
+                // Save data to Firestore
+                await addDoc(collection(firestore, 'bankDetails'), {
+                    selectedCurrency,
+                    selectedCountry,
+                    iban,
+                    timestamp: serverTimestamp()
+                });
+                setSubmissionStatus("Data submitted successfully!");
+                setErrorMessage("");
+                navigation.navigate("Supporting Documents");
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                setErrorMessage("Error submitting data. Please try again.");
+            }
         } else {
-            Alert.alert("Validation Error", "Please fill all required fields correctly");
+            setErrorMessage("Please fill all required fields correctly");
         }
     };
 
-    const clearErrors = () => {
+    const clearAllErrors = () => {
         setErrors({});
+        setErrorMessage("");
+        setSubmissionStatus("");
     };
 
     return (
@@ -41,7 +60,7 @@ const BankDetails = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessDirectors")}
+                onPress={() => navigation.navigate("Business Directors")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -67,7 +86,7 @@ const BankDetails = () => {
                                     selectedValue={selectedCurrency}
                                     onValueChange={(itemValue) => {
                                         setSelectedCurrency(itemValue);
-                                        clearErrors();
+                                        clearAllErrors();
                                     }}
                                 >
                                     <Picker.Item label="Select a currency..." value="." />
@@ -83,7 +102,7 @@ const BankDetails = () => {
                                     selectedValue={selectedCountry}
                                     onValueChange={(itemValue) => {
                                         setSelectedCountry(itemValue);
-                                        clearErrors();
+                                        clearAllErrors();
                                     }}
                                 >
                                     <Picker.Item label="Country" value="." />
@@ -99,8 +118,7 @@ const BankDetails = () => {
                                     placeholder="Enter your IBAN"
                                     placeholderTextColor="#757d8a"
                                     value={iban}
-                                    onChangeText={setIban}
-                                    onFocus={clearErrors}
+                                    onChangeText={(text) => { setIban(text); clearAllErrors(); }}
                                 />
                                 
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Confirm IBAN</Text>
@@ -110,13 +128,18 @@ const BankDetails = () => {
                                     placeholder="Confirm IBAN"
                                     placeholderTextColor="#757d8a"
                                     value={confirmIban}
-                                    onChangeText={setConfirmIban}
-                                    onFocus={clearErrors}
+                                    onChangeText={(text) => { setConfirmIban(text); clearAllErrors(); }}
                                 />
 
+                                {submissionStatus ? (
+                                    <Text style={successTextStyles.successText}>{submissionStatus}</Text>
+                                ) : errorMessage ? (
+                                    <Text style={errorTextStyles.errorText}>{errorMessage}</Text>
+                                ) : null}
+
                                 <Pressable
-                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}
-                                    onPress={handleContinue}
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
+                                    onPress={handleSubmit}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
@@ -140,7 +163,7 @@ const BankDetails = () => {
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BusinessStructure")}
+                    onPress={() => navigation.navigate("Business Structure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -148,7 +171,7 @@ const BankDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BankDetails")}
+                    onPress={() => navigation.navigate("Bank Details")}
                 >
                     <Text style={[styles.bankDetails2, styles.label1Typo]}>
                         Bank details
@@ -156,7 +179,7 @@ const BankDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("SupportingDocuments")}
+                    onPress={() => navigation.navigate("Supporting Documents")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -182,7 +205,7 @@ const BankDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessRepresentative")}
+                    onPress={() => navigation.navigate("Business Representative")}
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -190,7 +213,7 @@ const BankDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDetails")}
+                    onPress={() => navigation.navigate("Business Details")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -198,7 +221,7 @@ const BankDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessOwners")}
+                    onPress={() => navigation.navigate("Business Owners")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -206,21 +229,21 @@ const BankDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessExecutives")}
+                    onPress={() => navigation.navigate("Business Executives")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
                     </Text>
-                </Pressable>
+                    </Pressable>
+                
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDirectors")}
+                    onPress={() => navigation.navigate("Business Directors")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
                     </Text>
                 </Pressable>
-
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"
@@ -272,5 +295,19 @@ const BankDetails = () => {
         </View>
     );
 };
+
+const errorTextStyles = StyleSheet.create({
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+    }
+});
+
+const successTextStyles = StyleSheet.create({
+    successText: {
+        color: 'green',
+        fontSize: 12,
+    }
+});
 
 export default BankDetails;

@@ -11,7 +11,7 @@ const BusinessOwners = () => {
             <View style={styles.child} />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("BusinessDetails")}
+                onPress={() => navigation.navigate("Business Details")}
             >
                 <Image
                     style={styles.outlineLayout}
@@ -44,20 +44,20 @@ report discrepancies to them. Learn more`}</Text>
                                     style={[styles.pleaseAddAny, styles.innerPosition2]}
                                 >{`Please add any individual who owns 25% or more of the
 company.`}</Text>
-                                <View style={[styles.button1, styles.button1FlexBox]}>
+                                <Pressable style={[styles.button1, styles.button1FlexBox]} onPress  >
                                     <Image
                                         style={[styles.vectorIcon, styles.iconLayout]}
-                                        contentFit="cover"
+                                        resizeMode="cover"
                                         source={require("../assets/vector.png")}
                                     />
                                     <Text style={[styles.addABusiness, styles.businessTypo]}>
                                         Add a business owner
                                     </Text>
-                                </View>
+                                </Pressable>
                                 <Pressable
                                     style={[styles.continueWithNoOwnersParent, styles.button2FlexBox]}
                                     onPress={() => {
-                                        navigation.navigate("BusinessExecutives");
+                                        navigation.navigate("Business Executives");
                                     }}
                                 >
                                     <Text style={[styles.continueWithNo, styles.numberTypo]}>Continue with no owners</Text>
@@ -85,7 +85,7 @@ company.`}</Text>
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BusinessStructure")}
+                    onPress={() => navigation.navigate("Business Structure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -93,7 +93,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BankDetails")}
+                    onPress={() => navigation.navigate("Bank Details")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -101,7 +101,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("SupportingDocuments")}
+                    onPress={() => navigation.navigate("Supporting Documents")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -127,7 +127,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessRepresentative")}
+                    onPress={() => navigation.navigate("Business Representative")}
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -135,7 +135,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDetails")}
+                    onPress={() => navigation.navigate("Business Details")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -143,7 +143,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessOwners")}
+                    onPress={() => navigation.navigate("Business Owners")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo1]}>
                         Business owners
@@ -151,7 +151,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessExecutives")}
+                    onPress={() => navigation.navigate("Business Executives")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
@@ -159,7 +159,7 @@ company.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("BusinessDirectors")}
+                    onPress={() => navigation.navigate("Business Directors")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
