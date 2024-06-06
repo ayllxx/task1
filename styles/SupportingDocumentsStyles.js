@@ -583,5 +583,32 @@ export default StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
     },
-
+    filesContainer: {
+        marginTop: 10,
+    },
+    fileItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    removeButton: {
+        color: 'red',
+    },
+    filesContainer: {
+        marginTop: 10,
+    },
+    fileItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    removeButton: {
+        color: 'red',
+    },
 });
+
+

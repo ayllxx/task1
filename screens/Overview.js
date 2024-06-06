@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, View, Pressable, Text, ScrollView } from "react-native";
+import { Image, View, Pressable, Text, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { firestore } from '../firebase'; // Adjust the import path as needed
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
@@ -46,8 +46,9 @@ const Overview = () => {
 
     if (loading) {
         return (
-            <View style={styles.loadingContainer}>
-                <Text>Loading...</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={styles.loadingText}>Loading</Text>
             </View>
         );
     }
@@ -392,5 +393,20 @@ const Overview = () => {
         </ScrollView>
     );
 };
+
+const loaderStyles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+});
 
 export default Overview;

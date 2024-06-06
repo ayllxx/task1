@@ -130,13 +130,6 @@ const BankDetails = () => {
                                     value={confirmIban}
                                     onChangeText={(text) => { setConfirmIban(text); clearAllErrors(); }}
                                 />
-
-                                {submissionStatus ? (
-                                    <Text style={successTextStyles.successText}>{submissionStatus}</Text>
-                                ) : errorMessage ? (
-                                    <Text style={errorTextStyles.errorText}>{errorMessage}</Text>
-                                ) : null}
-
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
                                     onPress={handleSubmit}

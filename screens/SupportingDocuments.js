@@ -55,13 +55,13 @@ speed the process of verifying your account.`}</Text>
                                                 Browse and choose the files you want to upload from your
                                                 computer
                                             </Text>
-                                            <View style={[styles.cta, styles.ctaFlexBox]}>
+                                            <Pressable style={[styles.cta, styles.ctaFlexBox]}>
                                                 <Image
                                                     style={styles.icon1}
-                                                    contentFit="cover"
+                                                    resizeMode="cover"
                                                     source={require("../assets/icon1.png")}
                                                 />
-                                            </View>
+                                            </Pressable>
                                         </View>
                                     </View>
                                 </View>

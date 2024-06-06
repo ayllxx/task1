@@ -179,13 +179,9 @@ const BusinessRepresentative = () => {
                                         />
                                     </View>
                                 </View>
-                                {submissionStatus ? (
-                                    <Text style={successTextStyles.successText}>{submissionStatus}</Text>
-                                ) : errorMessage ? (
-                                    <Text style={errorTextStyles.errorText}>{errorMessage}</Text>
-                                ) : null}
+                                
                                 <Pressable
-                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34}]}
                                     onPress={handleSubmit}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
