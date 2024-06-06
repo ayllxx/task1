@@ -8,14 +8,15 @@ import { firestore } from '../firebase'; // Adjust the import path as needed
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 const BusinessDetails = () => {
-    const navigation = useNavigation();
-    const [selectedIndustry, setSelectedIndustry] = useState(".");
-    const [vatNumber, setVatNumber] = useState("");
-    const [website, setWebsite] = useState("");
-    const [errors, setErrors] = useState({});
-    const [submissionStatus, setSubmissionStatus] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const navigation = useNavigation(); // Initialize navigation
+    const [selectedIndustry, setSelectedIndustry] = useState("."); // State to manage selected industry
+    const [vatNumber, setVatNumber] = useState(""); // State to manage VAT number input
+    const [website, setWebsite] = useState(""); // State to manage website input
+    const [errors, setErrors] = useState({}); // State to manage form errors
+    const [submissionStatus, setSubmissionStatus] = useState(""); // State to manage submission status
+    const [errorMessage, setErrorMessage] = useState(""); // State to manage error messages
 
+    // Function to validate form inputs
     const validate = () => {
         const newErrors = {};
         if (!vatNumber) newErrors.vatNumber = "*VAT Number is required*";
@@ -25,6 +26,7 @@ const BusinessDetails = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    // Function to handle form submission
     const handleSubmit = async () => {
         if (validate()) {
             try {
@@ -47,38 +49,60 @@ const BusinessDetails = () => {
         }
     };
 
+    // Function to clear all errors
     const clearAllErrors = () => {
         setErrors({});
         setErrorMessage("");
         setSubmissionStatus("");
     };
 
+    // Function to handle navigation and validation
+    const handleNavigation = (screen) => {
+        if (validate()) {
+            navigation.navigate(screen);
+        } else {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                form: "Please fill all required fields",
+            }));
+        }
+    };
+
     return (
         <View style={styles.view}>
+            {/* Background child element */}
             <View style={styles.child} />
+
+            {/* Back button */}
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("Business Representative")}
+                onPress={() => navigation.navigate("Business Representative")} // Navigate to Business Representative screen
             >
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")}
+                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
                 />
             </Pressable>
+
+            {/* Account verification text */}
             <Text style={[styles.accountVerification, styles.overviewClr]}>
                 Account verification
             </Text>
+
+            {/* Badge indicating progress */}
             <View style={styles.badge}>
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
+
             <View style={styles.inner}>
                 <View style={[styles.frameParent, styles.groupChildPosition1]}>
                     <View style={styles.frameGroup}>
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
+                                {/* VAT input */}
                                 <Text style={[styles.label1, styles.label1Typo]}>VAT</Text>
-                                {errors.vatNumber && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.vatNumber}</Text>}
+                                {errors.industry && <Text style={[errorTextStyles.errorText, {marginBottom: -17, marginTop: 1}]}>{errors.vatNumber}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="VAT Number"
@@ -87,8 +111,9 @@ const BusinessDetails = () => {
                                     onChangeText={(text) => { setVatNumber(text); clearAllErrors(); }}
                                 />
 
+                                {/* Industry selection */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
-                                {errors.industry && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.industry}</Text>}
+                                {errors.industry && <Text style={[errorTextStyles.errorText, {marginBottom: -17, marginTop: 1}]}>{errors.industry}</Text>}
                                 <Picker
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     selectedValue={selectedIndustry}
@@ -103,8 +128,9 @@ const BusinessDetails = () => {
                                     <Picker.Item label="Industry 3" value="Industry 3" />
                                 </Picker>
 
+                                {/* Organization website input */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>
-                                {errors.website && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.website}</Text>}
+                                {errors.industry && <Text style={[errorTextStyles.errorText, {marginBottom: -17, marginTop: 1}]}>{errors.website}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="www.example.com"
@@ -113,6 +139,7 @@ const BusinessDetails = () => {
                                     onChangeText={(text) => { setWebsite(text); clearAllErrors(); }}
                                 />
 
+                                {/* Continue button */}
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
                                     onPress={handleSubmit}
@@ -121,7 +148,7 @@ const BusinessDetails = () => {
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"
-                                        source={require("../assets/-fill--arrowleft1.png")}
+                                        source={require("../assets/-fill--arrowleft1.png")} // Continue button icon
                                     />
                                 </Pressable>
                             </View>
@@ -129,6 +156,8 @@ const BusinessDetails = () => {
                     </View>
                 </View>
             </View>
+
+            {/* Navigation menu at the side */}
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -136,9 +165,11 @@ const BusinessDetails = () => {
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
+
+                {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Business Structure")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Structure screen
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -146,7 +177,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Bank Details")}
+                    onPress={() => handleNavigation("")} // Navigate to Bank Details screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -154,7 +185,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Supporting Documents")}
+                    onPress={() => handleNavigation("")} // Navigate to Supporting Documents screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -162,25 +193,23 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.stepAuthentication, styles.overviewPosition]}
-                    onPress={() => {
-                        navigation.navigate("Authentication");
-                    }}>
+                    onPress={() => handleNavigation("")}
+                >
                     <Text style={[styles.bankDetails1, styles.businessFlexBox]}>
                         2 step authentication
                     </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails1, styles.overviewPosition]}
-                    onPress={() => {
-                        navigation.navigate("");
-                    }}>
+                    onPress={() => handleNavigation("")}
+                >
                     <Text style={[styles.overview, styles.businessFlexBox]}>
                         Overview
                     </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Representative")}
+                    onPress={() => navigation.navigate("Business Representative")} // Navigate to Business Representative screen
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -188,7 +217,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Details")}
+                    onPress={() => handleNavigation("Business Details")} // Navigate to Business Details screen
                 >
                     <Text style={[styles.businessRepresentative2, styles.businessTypo]}>
                         Business details
@@ -196,7 +225,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Owners")}
+                    onPress={() => handleNavigation("Business Owners")} // Navigate to Business Owners screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -204,7 +233,7 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Executives")}
+                    onPress={() => handleNavigation("")} // Navigate to Business Executives screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
@@ -212,13 +241,14 @@ const BusinessDetails = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Directors")}
+                    onPress={() => handleNavigation("")} // Navigate to Business Directors screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
                     </Text>
                 </Pressable>
 
+                {/* Decorative images */}
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"
@@ -240,6 +270,8 @@ const BusinessDetails = () => {
                     source={require("../assets/group-37139.png")}
                 />
             </View>
+
+            {/* Indicator elements */}
             <View style={[styles.indicator, styles.groupChildLayout]}>
                 <Image
                     style={styles.dotIcon}
@@ -258,6 +290,7 @@ const BusinessDetails = () => {
     );
 };
 
+// Error text styles
 const errorTextStyles = StyleSheet.create({
     errorText: {
         color: 'red',
@@ -265,6 +298,7 @@ const errorTextStyles = StyleSheet.create({
     }
 });
 
+// Success text styles
 const successTextStyles = StyleSheet.create({
     successText: {
         color: 'green',

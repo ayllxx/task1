@@ -504,4 +504,8 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: "#FFFFFF",
     },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+    }
 });

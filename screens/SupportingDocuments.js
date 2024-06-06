@@ -1,55 +1,63 @@
 import * as React from "react";
-import { useState } from "react";
 import { Image, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/SupportingDocumentsStyles";
 
+// Main component function
 const SupportingDocuments = () => {
-    const navigation = useNavigation();
-    const [selectedCurrency, setSelectedCurrency] = useState("."); // useState hook to manage selected currency
-    const [selectedCountry, setSelectedCountry] = useState(".");
-    return (
+    const navigation = useNavigation(); // Initialize navigation hook
 
+    return (
         <View style={styles.view}>
+            {/* Background child element */}
             <View style={styles.child} />
+
+            {/* Back button */}
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("Bank Details")}
+                onPress={() => navigation.navigate("Bank Details")} // Navigate to Bank Details screen
             >
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")}
+                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
                 />
             </Pressable>
+
+            {/* Account verification text */}
             <Text style={[styles.accountVerification, styles.overviewClr]}>
                 Account verification
             </Text>
-            <View style={styles.badge}>
 
+            {/* Badge indicating progress */}
+            <View style={styles.badge}>
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
+
             <View style={styles.inner}>
                 <View style={[styles.frameParent, styles.groupChildPosition1]}>
                     <View style={styles.frameGroup}>
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
+                                {/* Title text for Supporting Documents */}
+                                <Text style={[styles.label1, styles.label1Typo, { marginBottom: 16 }]}>Supporting Documents</Text>
 
-                                <Text style={[styles.label1, styles.label1Typo, { marginBottom: 16, }]}>Supporting Documents</Text>
-
+                                {/* Informational text */}
                                 <Text
-                                    style={[styles.dueToRegulatory, styles.innerPosition, { width: 510 }]}
-                                >{`Please upload any further supporting documents to
-speed the process of verifying your account.`}</Text>
+                                    style={[styles.dueToRegulatory, styles.innerPosition, { width: 410 }]}
+                                >
+                                    {`Please upload any further supporting documents to
+speed the process of verifying your account.`}
+                                </Text>
 
-
+                                {/* Upload section */}
                                 <View style={styles.upload}>
                                     <View style={[styles.container, styles.badgeFlexBox]}>
                                         <View style={[styles.content, styles.badgeFlexBox]}>
                                             <Image
                                                 style={[styles.icon, styles.iconLayout]}
                                                 contentFit="cover"
-                                                source={require("../assets/upload.png")}
+                                                source={require("../assets/upload.png")} // Upload icon
                                             />
                                             <Text style={styles.paragraph}>
                                                 Browse and choose the files you want to upload from your
@@ -59,33 +67,34 @@ speed the process of verifying your account.`}</Text>
                                                 <Image
                                                     style={styles.icon1}
                                                     resizeMode="cover"
-                                                    source={require("../assets/icon1.png")}
+                                                    source={require("../assets/icon1.png")} // Upload button icon
                                                 />
                                             </Pressable>
                                         </View>
                                     </View>
                                 </View>
 
+                                {/* Continue button */}
                                 <Pressable
-                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410 }, { height: 34 }]}
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
                                     onPress={() => {
-                                        navigation.navigate("Authentication");
+                                        navigation.navigate("Authentication"); // Navigate to Authentication screen
                                     }}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        resizeMode="cover"  // Changed from contentFit to resizeMode
-                                        source={require("../assets/-fill--arrowleft1.png")}
+                                        resizeMode="cover"
+                                        source={require("../assets/-fill--arrowleft1.png")} // Continue button icon
                                     />
                                 </Pressable>
-
                             </View>
                         </View>
                     </View>
                 </View>
             </View>
 
+            {/* Navigation menu at the bottom */}
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -93,9 +102,11 @@ speed the process of verifying your account.`}</Text>
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
+
+                {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("BusinessStructure")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Structure screen
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -103,7 +114,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Bank Details")}
+                    onPress={() => navigation.navigate("Bank Details")} // Navigate to Bank Details screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -111,7 +122,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Supporting Documents")}
+                    onPress={() => navigation.navigate("Supporting Documents")} // Navigate to Supporting Documents screen
                 >
                     <Text style={[styles.bankDetails2, styles.label1Typo]}>
                         Supporting documents
@@ -137,7 +148,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Representative")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Representative screen
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -145,7 +156,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Details")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Details screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -153,7 +164,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Owners")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Owners screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -161,7 +172,7 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Executives")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Executives screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
@@ -169,14 +180,14 @@ speed the process of verifying your account.`}</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Directors")}
+                    onPress={() => navigation.navigate("")} // Navigate to Business Directors screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
                     </Text>
                 </Pressable>
 
-
+                {/* Decorative images */}
                 <Image
                     style={[styles.groupChild4, styles.groupChildLayout]}
                     contentFit="cover"
@@ -193,6 +204,8 @@ speed the process of verifying your account.`}</Text>
                     source={require("../assets/group-37139.png")}
                 />
             </View>
+
+            {/* Indicator elements */}
             <View style={[styles.indicator, styles.groupChildLayout]}>
                 <Image
                     style={styles.dotIcon}
@@ -223,6 +236,5 @@ speed the process of verifying your account.`}</Text>
         </View>
     );
 };
-
 
 export default SupportingDocuments;

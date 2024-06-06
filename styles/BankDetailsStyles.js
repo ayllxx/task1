@@ -510,4 +510,6 @@ export default StyleSheet.create({
     indicator1: {
         top: 389,
     },
+
+    
 });

@@ -7,20 +7,21 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import styles from '../styles/BusinessRepresentativeStyles'; // Adjust import path as needed
 
 const BusinessRepresentative = () => {
-    const navigation = useNavigation();
-    const [selectedValue, setSelectedValue] = useState("+353");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [addressLine1, setAddressLine1] = useState("");
-    const [addressLine2, setAddressLine2] = useState("");
-    const [city, setCity] = useState("");
-    const [zip, setZip] = useState("");
-    const [phone, setPhone] = useState("");
-    const [errors, setErrors] = useState({});
-    const [submissionStatus, setSubmissionStatus] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const navigation = useNavigation(); // Initialize navigation hook
+    const [areaCode, setAreaCode] = useState("+353"); // State to manage the selected country code
+    const [firstName, setFirstName] = useState(""); // State to manage first name input
+    const [lastName, setLastName] = useState(""); // State to manage last name input
+    const [email, setEmail] = useState(""); // State to manage email input
+    const [addressLine1, setAddressLine1] = useState(""); // State to manage address line 1 input
+    const [addressLine2, setAddressLine2] = useState(""); // State to manage address line 2 input
+    const [city, setCity] = useState(""); // State to manage city input
+    const [zip, setZip] = useState(""); // State to manage zip code input
+    const [phone, setPhone] = useState(""); // State to manage phone number input
+    const [errors, setErrors] = useState({}); // State to manage form errors
+    const [submissionStatus, setSubmissionStatus] = useState(""); // State to manage submission status
+    const [errorMessage, setErrorMessage] = useState(""); // State to manage error messages
 
+    // Function to validate form inputs
     const validate = () => {
         const newErrors = {};
         if (!firstName) newErrors.firstName = "*First Name is required*";
@@ -31,10 +32,12 @@ const BusinessRepresentative = () => {
         if (!city) newErrors.city = "*City is required*";
         if (!zip) newErrors.zip = "*Zip is required*";
         if (!phone) newErrors.phone = "*Phone number is required*";
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
+    // Function to handle form submission
     const handleSubmit = async () => {
         if (validate()) {
             try {
@@ -47,8 +50,8 @@ const BusinessRepresentative = () => {
                     addressLine2,
                     city,
                     zip,
-                    phone,
-                    selectedValue,
+                    phone: `${areaCode} ${phone}`, // Combine area code and phone number
+                    areaCode, // Include areaCode in the data being saved
                     timestamp: serverTimestamp()
                 });
                 setSubmissionStatus("Data submitted successfully!");
@@ -63,6 +66,7 @@ const BusinessRepresentative = () => {
         }
     };
 
+    // Function to clear all errors
     const clearAllErrors = () => {
         setErrors({});
         setErrorMessage("");
@@ -71,32 +75,41 @@ const BusinessRepresentative = () => {
 
     return (
         <View style={styles.view}>
+            {/* Background child element */}
             <View style={styles.child} />
+
+            {/* Back button */}
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("Business Structure")}
+                onPress={() => navigation.navigate("Business Structure")} // Navigate to Business Structure screen
             >
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")}
+                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
                 />
             </Pressable>
+
+            {/* Account verification text */}
             <Text style={[styles.accountVerification, styles.overviewClr]}>
                 Account verification
             </Text>
+
+            {/* Badge indicating progress */}
             <View style={styles.badge}>
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
+
             <View style={styles.inner}>
                 <View style={[styles.frameParent, styles.groupChildPosition1]}>
                     <View style={styles.frameGroup}>
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
+                                {/* Name input fields */}
                                 <Text style={[styles.label1, styles.label1Typo]}>Name</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ flex: 1, width: 205 }}>
-                                        {errors.firstName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.firstName}</Text>}
+                                        {errors.firstName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.firstName}</Text>}
                                         <TextInput
                                             style={[styles.input, styles.labelTypo, { marginRight: 10, width: 200 }]}
                                             placeholder="First Name"
@@ -105,8 +118,8 @@ const BusinessRepresentative = () => {
                                             onChangeText={(text) => { setFirstName(text); clearAllErrors(); }}
                                         />
                                     </View>
-                                    <View >
-                                        {errors.lastName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.lastName}</Text>}
+                                    <View>
+                                        {errors.lastName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.lastName}</Text>}
                                         <TextInput
                                             style={[styles.input, styles.labelTypo, { flex: 1, width: 200 }]}
                                             placeholder="Last Name"
@@ -116,8 +129,10 @@ const BusinessRepresentative = () => {
                                         />
                                     </View>
                                 </View>
+
+                                {/* Email input */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Email</Text>
-                                {errors.email && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.email}</Text>}
+                                {errors.email && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.email}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Email"
@@ -125,8 +140,10 @@ const BusinessRepresentative = () => {
                                     value={email}
                                     onChangeText={(text) => { setEmail(text); clearAllErrors(); }}
                                 />
+
+                                {/* Address input fields */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
-                                {errors.addressLine1 && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.addressLine1}</Text>}
+                                {errors.addressLine1 && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.addressLine1}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Address Line 1"
@@ -141,7 +158,7 @@ const BusinessRepresentative = () => {
                                     value={addressLine2}
                                     onChangeText={(text) => { setAddressLine2(text); clearAllErrors(); }}
                                 />
-                                {errors.city && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.city}</Text>}
+                                {errors.city && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.city}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="City"
@@ -149,7 +166,7 @@ const BusinessRepresentative = () => {
                                     value={city}
                                     onChangeText={(text) => { setCity(text); clearAllErrors(); }}
                                 />
-                                {errors.zip && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.zip}</Text>}
+                                {errors.zip && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.zip}</Text>}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Zip"
@@ -157,19 +174,21 @@ const BusinessRepresentative = () => {
                                     value={zip}
                                     onChangeText={(text) => { setZip(text); clearAllErrors(); }}
                                 />
+
+                                {/* Phone input fields */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Picker
                                         style={[styles.input, styles.labelTypo, { width: 121 }]}
-                                        selectedValue={selectedValue}
-                                        onValueChange={(itemValue) => { setSelectedValue(itemValue); clearAllErrors(); }}
+                                        selectedValue={areaCode}
+                                        onValueChange={(itemValue) => { setAreaCode(itemValue); clearAllErrors(); }}
                                     >
                                         <Picker.Item label="+353" value="+353" />
                                         <Picker.Item label="+354" value="+354" />
                                         <Picker.Item label="+355" value="+355" />
                                     </Picker>
                                     <View style={{ width: 249 }}>
-                                        {errors.phone && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12, }}>{errors.phone}</Text>}
+                                        {errors.phone && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.phone}</Text>}
                                         <TextInput
                                             style={[styles.input, styles.labelTypo, { width: 289 }]}
                                             placeholder="085 1234567"
@@ -179,16 +198,17 @@ const BusinessRepresentative = () => {
                                         />
                                     </View>
                                 </View>
-                                
+
+                                {/* Continue button */}
                                 <Pressable
-                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34}]}
+                                    style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
                                     onPress={handleSubmit}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"
-                                        source={require("../assets/-fill--arrowleft1.png")}
+                                        source={require("../assets/-fill--arrowleft1.png")} // Continue button icon
                                     />
                                 </Pressable>
                             </View>
@@ -196,6 +216,8 @@ const BusinessRepresentative = () => {
                     </View>
                 </View>
             </View>
+
+            {/* Navigation menu at the side */}
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -203,9 +225,12 @@ const BusinessRepresentative = () => {
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
+
+                {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Business Structure")}
+                    onPress={() => { navigation.navigate("Business Structure");
+                    }} // Navigate to Business Structure screen
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -213,7 +238,13 @@ const BusinessRepresentative = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Bank Details")}
+                    onPress={() => {
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }} // Navigate to Bank Details screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -221,7 +252,13 @@ const BusinessRepresentative = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Supporting Documents")}
+                    onPress={() => {
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }} // Navigate to Supporting Documents screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -230,8 +267,13 @@ const BusinessRepresentative = () => {
                 <Pressable
                     style={[styles.stepAuthentication, styles.overviewPosition]}
                     onPress={() => {
-                        navigation.navigate("Authentication");
-                    }}>
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }}
+                >
                     <Text style={[styles.bankDetails1, styles.businessFlexBox]}>
                         2 step authentication
                     </Text>
@@ -239,15 +281,22 @@ const BusinessRepresentative = () => {
                 <Pressable
                     style={[styles.bankDetails1, styles.overviewPosition]}
                     onPress={() => {
-                        navigation.navigate("");
-                    }}>
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }}
+                >
                     <Text style={[styles.overview, styles.businessFlexBox]}>
                         Overview
                     </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Representative")}
+                    onPress={() => {
+                        navigation.navigate("Business Representative");
+                    }} // Navigate to Business Representative screen
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -255,7 +304,13 @@ const BusinessRepresentative = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Details")}
+                    onPress={() => {
+                        if (validate()) {
+                            navigation.navigate("Business Details");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }} // Navigate to Business Details screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -263,7 +318,13 @@ const BusinessRepresentative = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Owners")}
+                    onPress={() => {
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }} // Navigate to Business Owners screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -271,21 +332,34 @@ const BusinessRepresentative = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Executives")}
+                    onPress={() => {
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }} // Navigate to Business Executives screen
                 >
-                
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
-                        </Text>
-                    </Pressable>
+                    </Text>
+                </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Directors")}
+                    onPress={() => {
+                        if (validate()) {
+                            navigation.navigate("");
+                        } else {
+                            setShowErrors(true);
+                        }
+                    }} // Navigate to Business Directors screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
                     </Text>
                 </Pressable>
+
+                {/* Decorative images */}
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"
@@ -307,6 +381,8 @@ const BusinessRepresentative = () => {
                     source={require("../assets/group-37139.png")}
                 />
             </View>
+
+            {/* Indicator elements */}
             <View style={[styles.indicator, styles.groupChildLayout]}>
                 <Image
                     style={styles.dotIcon}
@@ -322,22 +398,8 @@ const BusinessRepresentative = () => {
             </View>
             <View style={[styles.item, styles.itemGroupLayout]} />
         </View>
-        
     );
 };
 
-const errorTextStyles = StyleSheet.create({
-    errorText: {
-        color: 'red',
-        fontSize: 12,
-    }
-});
-
-const successTextStyles = StyleSheet.create({
-    successText: {
-        color: 'green',
-        fontSize: 12,
-    }
-});
 
 export default BusinessRepresentative;

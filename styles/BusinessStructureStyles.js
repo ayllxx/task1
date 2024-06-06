@@ -322,4 +322,9 @@ export default StyleSheet.create({
       flex: 1,
       backgroundColor: Color.backgroundSurface,
     },
+    errorText: {
+      color: 'red',
+      fontSize: 12,
+    }
   });
+  

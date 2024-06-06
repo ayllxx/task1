@@ -6,12 +6,15 @@ import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import LabelInput from "../components/LabelInput";
 import styles from "../styles/OverviewStyles";
 
+// Main component function
 const Overview = () => {
-    const navigation = useNavigation();
-    const [data, setData] = useState({});
-    const [loading, setLoading] = useState(true);
+    const navigation = useNavigation(); // Initialize navigation hook
+    const [data, setData] = useState({}); // State to manage fetched data
+    const [loading, setLoading] = useState(true); // State to manage loading status
 
+    // useEffect hook to fetch data when the component mounts
     useEffect(() => {
+        // Function to fetch the latest document from a given collection
         const fetchLatestDoc = async (collectionName) => {
             const q = query(collection(firestore, collectionName), orderBy('timestamp', 'desc'), limit(1));
             const querySnapshot = await getDocs(q);
@@ -21,6 +24,7 @@ const Overview = () => {
             return {};
         };
 
+        // Function to fetch data from multiple collections
         const fetchData = async () => {
             try {
                 const businessStructureData = await fetchLatestDoc('businessStructure');
@@ -37,47 +41,62 @@ const Overview = () => {
             } catch (error) {
                 console.error("Error fetching documents: ", error);
             } finally {
-                setLoading(false);
+                setLoading(false); // Set loading to false once data is fetched
             }
         };
 
         fetchData();
     }, []);
 
+    // Render a loading indicator while data is being fetched
     if (loading) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={loaderStyles.loadingContainer}>
                 <ActivityIndicator size="large" color="#0000ff" />
-                <Text style={styles.loadingText}>Loading</Text>
+                <Text style={loaderStyles.loadingText}>Loading</Text>
             </View>
         );
     }
 
+    // Check if the phone field already includes the area code
+    const phoneWithAreaCode = data.phone && data.phone.startsWith(data.areaCode) ? data.phone : `${data.areaCode} ${data.phone}`;
+
     return (
         <ScrollView style={styles.view}>
+            {/* Background child element */}
             <View style={styles.child} />
+
+            {/* Back button */}
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("Authentication")}
+                onPress={() => navigation.navigate("Authentication")} // Navigate to Authentication screen
             >
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")}
+                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
                 />
             </Pressable>
+
+            {/* Account verification text */}
             <Text style={[styles.accountVerification, styles.overviewClr]}>
                 Account verification
             </Text>
+
+            {/* Badge indicating progress */}
             <View style={styles.badge}>
                 <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
             </View>
+
             <View style={styles.inner}>
                 <View style={[styles.frameParent, styles.groupChildPosition1]}>
                     <View style={styles.frameGroup}>
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
+                                {/* Business Structure Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginBottom: 24 }]}>Business Structure</Text>
+                                
+                                {/* Business Address */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginBottom: 0 }]}>Business Address</Text>
                                 <LabelInput
                                     label1={data.businessAddress || "N/A"}
@@ -88,6 +107,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Business Type */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Type of business</Text>
                                 <LabelInput
                                     label1={data.selectedType || "N/A"}
@@ -96,6 +117,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Address Line 1 */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
                                 <LabelInput
                                     label1={data.addressLine1 || "N/A"}
@@ -104,6 +127,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* City */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>City</Text>
                                 <LabelInput
                                     label1={data.city || "N/A"}
@@ -112,6 +137,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* ZIP */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>ZIP</Text>
                                 <LabelInput
                                     label1={data.zip || "N/A"}
@@ -120,7 +147,11 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Business Representative Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 24 }]}>Business Representative</Text>
+                                
+                                {/* First Name */}
                                 <Text style={[styles.label1, styles.label1Typo]}>First Name</Text>
                                 <LabelInput
                                     label1={data.firstName || "N/A"}
@@ -129,6 +160,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Last Name */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Last Name</Text>
                                 <LabelInput
                                     label1={data.lastName || "N/A"}
@@ -137,6 +170,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Email */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Email</Text>
                                 <LabelInput
                                     label1={data.email || "N/A"}
@@ -145,14 +180,18 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Phone Number */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone Number</Text>
                                 <LabelInput
-                                    label1={data.phone || "N/A"}
+                                    label1={phoneWithAreaCode || "N/A"}
                                     propWidth={410}
                                     propWidth1={410}
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Address Line 1 */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
                                 <LabelInput
                                     label1={data.addressLine1 || "N/A"}
@@ -161,7 +200,11 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Business Details Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 24 }]}>Business Details</Text>
+
+                                {/* VAT */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>VAT</Text>
                                 <LabelInput
                                     label1={data.vatNumber || "N/A"}
@@ -169,14 +212,20 @@ const Overview = () => {
                                     propWidth1={410}
                                     propFontSize={16}
                                     propColor="#757d8a"
-                                /><Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
+                                />
+
+                                {/* Industry */}
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
                                 <LabelInput
                                     label1={data.selectedIndustry || "N/A"}
                                     propWidth={410}
                                     propWidth1={410}
                                     propFontSize={16}
                                     propColor="#757d8a"
-                                /><Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>
+                                />
+
+                                {/* Organization Website */}
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>
                                 <LabelInput
                                     label1={data.website || "N/A"}
                                     propWidth={410}
@@ -184,7 +233,11 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Bank Details Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 8 }]}>Bank Details</Text>
+
+                                {/* Currency */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Currency</Text>
                                 <LabelInput
                                     label1={data.selectedCurrency || "N/A"}
@@ -193,6 +246,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Country of Bank Account */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Country of bank account</Text>
                                 <LabelInput
                                     label1={data.selectedCountry || "N/A"}
@@ -201,6 +256,8 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* IBAN */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>IBAN</Text>
                                 <LabelInput
                                     label1={data.iban || "N/A"}
@@ -209,10 +266,12 @@ const Overview = () => {
                                     propFontSize={16}
                                     propColor="#757d8a"
                                 />
+
+                                {/* Continue Button */}
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
                                     onPress={() => {
-                                        // add press handler here ....
+                                        // Add press handler here
                                     }}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
@@ -227,6 +286,8 @@ const Overview = () => {
                     </View>
                 </View>
             </View>
+
+            {/* Navigation menu at the bottom */}
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -234,9 +295,11 @@ const Overview = () => {
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
+
+                {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Business Structure")}
+                    onPress={() => navigation.navigate("Business Structure")} // Navigate to Business Structure screen
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -244,7 +307,7 @@ const Overview = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Bank Details")}
+                    onPress={() => navigation.navigate("Bank Details")} // Navigate to Bank Details screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -252,7 +315,7 @@ const Overview = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Supporting Documents")}
+                    onPress={() => navigation.navigate("Supporting Documents")} // Navigate to Supporting Documents screen
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -278,7 +341,7 @@ const Overview = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Representative")}
+                    onPress={() => navigation.navigate("Business Representative")} // Navigate to Business Representative screen
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -286,7 +349,7 @@ const Overview = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Details")}
+                    onPress={() => navigation.navigate("Business Details")} // Navigate to Business Details screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -294,7 +357,7 @@ const Overview = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Owners")}
+                    onPress={() => navigation.navigate("Business Owners")} // Navigate to Business Owners screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business owners
@@ -302,20 +365,22 @@ const Overview = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Executives")}
+                    onPress={() => navigation.navigate("Business Executives")} // Navigate to Business Executives screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
-                    </Text>
-                </Pressable>
+                        </Text>
+                    </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Directors")}
+                    onPress={() => navigation.navigate("Business Directors")} // Navigate to Business Directors screen
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
                     </Text>
                 </Pressable>
+
+                {/* Decorative images */}
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"
@@ -337,6 +402,8 @@ const Overview = () => {
                     source={require("../assets/group-37139.png")}
                 />
             </View>
+
+            {/* Indicator elements */}
             <View style={[styles.indicator, styles.groupChildLayout]}>
                 <Image
                     style={styles.dotIcon}
