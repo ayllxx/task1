@@ -1,10 +1,12 @@
 import * as React from "react";
-import { Image, View, Pressable, Text } from "react-native";
+import { Image, View, Pressable, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/AuthenticationStyles"; // Import styles
 
 const Authentication = () => {
     const navigation = useNavigation(); // Initialize navigation
+    const [isSmsHovered, setIsSmsHovered] = React.useState(false);
+    const [isAuthenticatorHovered, setIsAuthenticatorHovered] = React.useState(false);
 
     return (
         <View style={styles.view}>
@@ -45,25 +47,48 @@ const Authentication = () => {
                                 </Text>
 
                                 {/* SMS option button */}
-                                <View style={[styles.button1, styles.button1FlexBox]}>
-                                    <Text style={[styles.addABusiness, styles.businessTypo]}>
+                                <Pressable
+                                    style={({ pressed }) => [
+                                        styles.button1,
+                                        isSmsHovered && styles.hoveredBG,
+                                       
+                                        { justifyContent: 'flex-start', alignItems: 'flex-start' } // Adjust alignment here
+                                    ]}
+                                    onHoverIn={() => setIsSmsHovered(true)}
+                                    onHoverOut={() => setIsSmsHovered(false)}
+                                    onPress={() => {
+                                        // Add your handler here
+                                    }}
+                                >
+                                    <Text style={[styles.addABusiness, styles.businessTypo, isSmsHovered && styles.hoveredText, { textAlign: 'left' }]}>
                                         Use SMS
                                     </Text>
-                                </View>
+                                </Pressable>
 
                                 {/* Authenticator app option button */}
-                                <View style={[styles.button2, styles.button1FlexBox]}>
-                                    <Text style={[styles.addABusiness, styles.businessTypo]}>
+                                <Pressable
+                                    style={({ pressed }) => [
+                                        styles.button2,
+                                        isAuthenticatorHovered && styles.hoveredBG2,
+                                        { justifyContent: 'flex-start', alignItems: 'flex-start',  } // Adjust alignment here
+                                    ]}
+                                    onHoverIn={() => setIsAuthenticatorHovered(true)}
+                                    onHoverOut={() => setIsAuthenticatorHovered(false)}
+                                    onPress={() => {
+                                        // Add your handler here
+                                    }}
+                                >
+                                    <Text style={[styles.addABusiness, styles.businessTypo, isAuthenticatorHovered && styles.hoveredText, { textAlign: 'left' }]}>
                                         Use an authenticator app
                                     </Text>
-                                </View>
+                                </Pressable>
 
                                 {/* Continue button */}
                                 <Pressable
                                     style={[
                                         styles.continueParent,
                                         styles.labelInputsSpaceBlock,
-                                        { width: 410, height: 34, top: 100 }
+                                        { width: 410, height: 34, top: 25}
                                     ]}
                                     onPress={() => navigation.navigate("Overview")} // Navigate to Overview screen
                                 >
@@ -83,7 +108,7 @@ const Authentication = () => {
                 </View>
             </View>
 
-            {/* Navigation menu aon the side */}
+            {/* Navigation menu on the side */}
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -91,7 +116,7 @@ const Authentication = () => {
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
-                
+
                 {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
@@ -127,8 +152,9 @@ const Authentication = () => {
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails1, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Overview")} // Navigate to an unspecified screen
-                >
+                    onPress={() => {
+                        navigation.navigate("Overview");
+                    }}>
                     <Text style={[styles.overview, styles.businessFlexBox]}>
                         Overview
                     </Text>
@@ -229,10 +255,25 @@ const Authentication = () => {
                     source={require("../assets/media--icon1.png")}
                 />
             </View>
-            
+
             <View style={[styles.item, styles.itemGroupLayout]} />
         </View>
     );
 };
+
+const loaderStyles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+});
 
 export default Authentication;

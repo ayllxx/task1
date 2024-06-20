@@ -66,20 +66,21 @@ const BusinessStructure = () => {
   };
 
   return (
-    // Main container view
     <View style={styles.view}>
-      {/* Background child element */}
-      <View style={styles.child} />
+            {/* Background child element */}
+            <View style={styles.child} />
 
-      {/* Back button */}
-      <View style={[styles.button, styles.inputFlexBox]}>
-        <Image
-          style={styles.outlineLayout}
-          contentFit=""
-          source={require("../assets/-fill--arrowleft.png")} // Back button icon
-        />
-      </View>
-
+            {/* Back button */}
+            <Pressable
+                style={styles.button}
+                onPress={() => navigation.navigate("Overview")} // Navigate to Authentication screen
+            >
+                <Image
+                    style={styles.outlineLayout}
+                    contentFit="cover"
+                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
+                />
+            </Pressable>
       {/* Account verification text */}
       <Text style={styles.accountVerification}>Account verification</Text>
 
@@ -249,7 +250,7 @@ const BusinessStructure = () => {
 
         <Pressable
           style={[styles.businessRepresentative, styles.businessPosition]}
-          onPress={() => handleNavigation("Business Representative")} // Navigate to Business Representative screen
+          onPress={() => handleNavigation("Under Review")} // Navigate to Business Representative screen
         >
           <Text
             style={[styles.businessRepresentative1, styles.businessFlexBox]}

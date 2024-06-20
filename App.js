@@ -12,6 +12,7 @@ import BankDetails from "./screens/BankDetails";
 import SupportingDocuments from "./screens/SupportingDocuments";
 import Authentication from "./screens/Authentication";
 import Overview from "./screens/Overview";
+import UnderReview from "./screens/UnderReview";
 
 const Stack = createNativeStackNavigator();
 
@@ -85,6 +86,12 @@ const App = () => {
             <Stack.Screen
               name="Overview"
               component={Overview}
+              options={{ headerShown: false }}
+              
+            />
+            <Stack.Screen
+              name="Under Review"
+              component={UnderReview}
               options={{ headerShown: false }}
               
             />
