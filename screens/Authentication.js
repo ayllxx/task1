@@ -21,7 +21,7 @@ const Authentication = () => {
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
+                    source={require("../assets/back_arrow.png")} // Back button icon
                 />
             </Pressable>
 
@@ -98,7 +98,7 @@ const Authentication = () => {
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
                                         resizeMode="cover"
-                                        source={require("../assets/-fill--arrowleft1.png")} // Continue button icon
+                                        source={require("../assets/back_arrow.png")} // Continue button icon
                                     />
                                 </Pressable>
 

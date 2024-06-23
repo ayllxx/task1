@@ -43,6 +43,9 @@ const BusinessStructure = () => {
           zip,
           selectedType,
           timestamp: serverTimestamp(),
+          authen: "verified",
+          userID: "admin",
+
         });
         setSubmissionStatus("Data submitted successfully!"); // Set success message
         setErrorMessage(""); // Clear any previous error message
@@ -73,12 +76,12 @@ const BusinessStructure = () => {
             {/* Back button */}
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("Overview")} // Navigate to Authentication screen
+                onPress={() => navigation.navigate("Business Owners")} // Navigate to Authentication screen
             >
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
+                    source={require("../assets/back_arrow.png")} // Back button icon
                 />
             </Pressable>
       {/* Account verification text */}

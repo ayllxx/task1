@@ -2,6 +2,27 @@ import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+    fileItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    fileName: {
+        flex: 1,
+    },
+    view: {
+        flex: 1,
+        backgroundColor: '#F5FCFF', // Your main background color
+    },
+    blueBackground: {
+        backgroundColor: '#0000ff', // Blue background color
+    },
+    hoveredText: {
+        color: '#0000ff', // Change text color to blue on hover
+    },
+   
     overviewClr: {
         color: Color.colorBlack,
         fontSize: FontSize.paragraphMediumRegular_size,

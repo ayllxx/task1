@@ -13,6 +13,15 @@ import SupportingDocuments from "./screens/SupportingDocuments";
 import Authentication from "./screens/Authentication";
 import Overview from "./screens/Overview";
 import UnderReview from "./screens/UnderReview";
+import Dashboard from "./screens/Dashboard";
+import Dashboard1 from "./screens/Dashboard1";
+import SideBar from "./components/SideBar";
+import Group from "./components/Group";
+import Menu from "./components/Menu";
+import Menu1 from "./components/Menu1";
+import Menu2 from "./components/Menu2";
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -20,11 +29,19 @@ const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
 
   const [fontsLoaded, error] = useFonts({
-    "Inter-Light": require("./assets/fonts/Inter-Light.ttf"),
+    "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
+    "PlusJakartaSans-Medium": require("./assets/fonts/PlusJakartaSans-Medium.ttf"),
+    "PlusJakartaSans-SemiBold": require("./assets/fonts/PlusJakartaSans-SemiBold.ttf"),
+    "PlusJakartaSans-Bold": require("./assets/fonts/PlusJakartaSans-Bold.ttf"),
     "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
     "Inter-Medium": require("./assets/fonts/Inter-Medium.ttf"),
     "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
+    "SFProText-Regular": require("./assets/fonts/SFProText-Regular.otf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
     "DMSans-Regular": require("./assets/fonts/DMSans-Regular.ttf"),
+    "DMSans-Medium": require("./assets/fonts/DMSans-Medium.ttf"),
+    "DMSans-Bold": require("./assets/fonts/DMSans-Bold.ttf"),
+    "SFMedium": require("./assets/fonts/SFProMedium.ttf"),
   });
 
   if (!fontsLoaded && !error) {
@@ -36,6 +53,7 @@ const App = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {hideSplashScreen && (
           <>
+          
             <Stack.Screen
               name="Business Structure"
               component={BusinessStructure}
@@ -95,6 +113,17 @@ const App = () => {
               options={{ headerShown: false }}
               
             />
+            <Stack.Screen
+              name="Dashboard"
+              component={Dashboard}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Dashboard1"
+              component={Dashboard1}
+              options={{ headerShown: false }}
+            />
+            
           </>
         )}
       </Stack.Navigator>

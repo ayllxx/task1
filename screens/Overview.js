@@ -74,7 +74,7 @@ const Overview = () => {
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
+                    source={require("../assets/back_arrow.png")} // Back button icon
                 />
             </Pressable>
 

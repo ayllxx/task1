@@ -1,101 +1,81 @@
 import * as React from "react";
-import { Image, View, Pressable, Text } from "react-native";
+import { Image, View, Pressable, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/BusinessOwnersStyles";
 
 const BusinessOwners = () => {
-    const navigation = useNavigation(); // Initialize navigation hook
+    const navigation = useNavigation();
 
     return (
         <View style={styles.view}>
-            {/* Background child element */}
             <View style={styles.child} />
-
-            {/* Back button */}
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate("Business Details")} // Navigate to Business Details screen
+                onPress={() => navigation.navigate("Business Details")}
             >
                 <Image
                     style={styles.outlineLayout}
                     contentFit="cover"
-                    source={require("../assets/-fill--arrowleft.png")} // Back button icon
+                    source={require("../assets/back_arrow.png")}
                 />
             </Pressable>
-
-            {/* Account verification text */}
             <Text style={[styles.accountVerification, styles.overviewClr]}>
                 Account verification
             </Text>
-
-            {/* Badge indicating progress */}
             <View style={styles.badge}>
-                <Text style={[styles.label, styles.businessTypo]}>In progress</Text>
-            </View>
 
+                <Text style={[styles.label, styles.businessTypo,]}>In progress</Text>
+            </View>
             <View style={styles.inner}>
                 <View style={[styles.frameParent, styles.groupChildPosition1]}>
                     <View style={styles.frameGroup}>
                         <View style={styles.frameGroup}>
                             <View style={styles.frameGroup}>
-                                {/* Title text for Business Owners */}
                                 <Text style={styles.label1}>Add your business owners</Text>
-
-                                {/* Informational text */}
                                 <Text
                                     style={[styles.dueToRegulatory, styles.innerPosition, { width: 510 }]}
-                                >
-                                    {`Due to regulatory guidelines, we're required to collect and
+                                >{`Due to regulatory guidelines, we're required to collect and
 verify information on anyone who has significant
 ownership of your business. Please be sure to enter this
 information correctly, as we may verify this information
 with that in the Companies House and may need to
-report discrepancies to them. Learn more`}
-                                </Text>
-
-                                {/* Instructional text */}
+report discrepancies to them. Learn more`}</Text>
                                 <Text
                                     style={[styles.pleaseAddAny, styles.innerPosition2]}
-                                >
-                                    {`Please add any individual who owns 25% or more of the
-company.`}
-                                </Text>
-
-                                {/* Button to add a business owner */}
-                                <Pressable style={[styles.button1, styles.button1FlexBox]} onPress>
+                                >{`Please add any individual who owns 25% or more of the
+company.`}</Text>
+                                <Pressable style={[styles.button1, styles.button1FlexBox]} onPress  >
                                     <Image
                                         style={[styles.vectorIcon, styles.iconLayout]}
                                         resizeMode="cover"
-                                        source={require("../assets/vector.png")} // Add business owner icon
+                                        source={require("../assets/vector.png")}
                                     />
                                     <Text style={[styles.addABusiness, styles.businessTypo]}>
                                         Add a business owner
                                     </Text>
                                 </Pressable>
-
-                                {/* Button to continue without adding a business owner */}
                                 <Pressable
                                     style={[styles.continueWithNoOwnersParent, styles.button2FlexBox]}
                                     onPress={() => {
-                                        navigation.navigate("Business Executives"); // Navigate to Business Executives screen
+                                        navigation.navigate("Business Executives");
                                     }}
                                 >
-                                    <Text style={[styles.continueWithNo, styles.numberTypo]}>
-                                        Continue with no owners
-                                    </Text>
+                                    <Text style={[styles.continueWithNo, styles.numberTypo]}>Continue with no owners</Text>
                                     <Image
                                         style={[styles.fillArrowLeft1, styles.fillLayout]}
-                                        resizeMode="cover"
-                                        source={require("../assets/-fill--arrowleft1.png")} // Continue button icon
+                                        resizeMode="cover"  // Changed from contentFit to resizeMode
+                                        source={require("../assets/-fill--arrowleft1.png")}
                                     />
                                 </Pressable>
+
+
+
                             </View>
                         </View>
                     </View>
                 </View>
             </View>
 
-            {/* Navigation menu at the side */}
             <View style={[styles.rectangleParent, styles.groupChildLayout2]}>
                 <View style={[styles.groupChild, styles.groupChildLayout2]} />
                 <View style={[styles.groupItem, styles.itemGroupLayout]} />
@@ -103,11 +83,9 @@ company.`}
                 <View style={[styles.rectangleView, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild1, styles.itemGroupLayout]} />
                 <View style={[styles.groupChild2, styles.itemGroupLayout]} />
-
-                {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("Business Structure")} // Navigate to Business Structure screen
+                    onPress={() => navigation.navigate("Business Structure")}
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>
                         Business structure
@@ -115,7 +93,7 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.bankDetails, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("")} // Navigate to Bank Details screen
+                    onPress={() => navigation.navigate("Bank Details")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Bank details
@@ -123,7 +101,7 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.supportingDocuments, styles.overviewPosition]}
-                    onPress={() => navigation.navigate("")} // Navigate to Supporting Documents screen
+                    onPress={() => navigation.navigate("Supporting Documents")}
                 >
                     <Text style={[styles.bankDetails1, styles.label1Typo]}>
                         Supporting documents
@@ -132,7 +110,7 @@ company.`}
                 <Pressable
                     style={[styles.stepAuthentication, styles.overviewPosition]}
                     onPress={() => {
-                        navigation.navigate("");
+                        navigation.navigate("Authentication");
                     }}>
                     <Text style={[styles.bankDetails1, styles.businessFlexBox]}>
                         2 step authentication
@@ -149,7 +127,7 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.businessRepresentative, styles.businessPosition]}
-                    onPress={() => navigation.navigate("")} // Navigate to Business Representative screen
+                    onPress={() => navigation.navigate("Business Representative")}
                 >
                     <Text style={[styles.businessRepresentative1, styles.businessTypo]}>
                         Business representative
@@ -157,7 +135,7 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.businessDetails, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Details")} // Navigate to Business Details screen
+                    onPress={() => navigation.navigate("Business Details")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business details
@@ -165,7 +143,7 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.businessOwners, styles.businessPosition]}
-                    onPress={() => navigation.navigate("")} // Navigate to Business Owners screen
+                    onPress={() => navigation.navigate("Business Owners")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo1]}>
                         Business owners
@@ -173,7 +151,7 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.businessExecutives, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Executives")} // Navigate to Business Executives screen
+                    onPress={() => navigation.navigate("Business Executives")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
@@ -181,14 +159,13 @@ company.`}
                 </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
-                    onPress={() => navigation.navigate("Business Directors")} // Navigate to Business Directors screen
+                    onPress={() => navigation.navigate("Business Directors")}
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business directors
                     </Text>
                 </Pressable>
 
-                {/* Decorative images */}
                 <Image
                     style={[styles.groupChild3, styles.groupChildLayout]}
                     contentFit="cover"
@@ -210,8 +187,6 @@ company.`}
                     source={require("../assets/group-37139.png")}
                 />
             </View>
-
-            {/* Indicator elements */}
             <View style={[styles.indicator, styles.groupChildLayout]}>
                 <Image
                     style={styles.dotIcon}
@@ -229,5 +204,7 @@ company.`}
         </View>
     );
 };
+
+
 
 export default BusinessOwners;
