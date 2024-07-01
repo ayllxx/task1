@@ -323,8 +323,9 @@ export default StyleSheet.create({
       backgroundColor: Color.backgroundSurface,
     },
     errorText: {
-      color: 'red',
+      color: '#CD3D64',
       fontSize: 12,
+      fontFamily: FontFamily.interRegular,
     }
   });
   

@@ -19,9 +19,11 @@ const BusinessDetails = () => {
     // Function to validate form inputs
     const validate = () => {
         const newErrors = {};
-        if (!vatNumber) newErrors.vatNumber = "*VAT Number is required*";
-        if (selectedIndustry === ".") newErrors.industry = "*Industry is required*";
-        if (!website) newErrors.website = "*Organization website is required*";
+        if (!vatNumber) newErrors.vatNumber = "VAT Number is required";
+        else if (vatNumber.length < 10) newErrors.vatNumber = "VAT Number must be at least 10 characters long";
+        if (selectedIndustry === ".") newErrors.industry = "Industry is required";
+        if (!website) newErrors.website = "Organization website is required";
+        
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -102,9 +104,20 @@ const BusinessDetails = () => {
                             <View style={styles.frameGroup}>
                                 {/* VAT input */}
                                 <Text style={[styles.label1, styles.label1Typo]}>VAT</Text>
-                                {errors.industry && <Text style={[errorTextStyles.errorText, {marginBottom: -17, marginTop: 1}]}>{errors.vatNumber}</Text>}
+                                
+                                {errors.vatNumber && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.vatNumber}</Text>
+                                    </View>
+                                )}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.vatNumber && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     placeholder="VAT Number"
                                     placeholderTextColor="#757d8a"
                                     value={vatNumber}
@@ -113,9 +126,19 @@ const BusinessDetails = () => {
 
                                 {/* Industry selection */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
-                                {errors.industry && <Text style={[errorTextStyles.errorText, {marginBottom: -17, marginTop: 1}]}>{errors.industry}</Text>}
+                                {errors.industry && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.industry}</Text>
+                                    </View>
+                                )}
                                 <Picker
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.industry && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     selectedValue={selectedIndustry}
                                     onValueChange={(itemValue) => {
                                         setSelectedIndustry(itemValue);
@@ -130,9 +153,19 @@ const BusinessDetails = () => {
 
                                 {/* Organization website input */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>
-                                {errors.industry && <Text style={[errorTextStyles.errorText, {marginBottom: -17, marginTop: 1}]}>{errors.website}</Text>}
+                                {errors.website && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.website}</Text>
+                                    </View>
+                                )}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.website && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     placeholder="www.example.com"
                                     placeholderTextColor="#757d8a"
                                     value={website}
@@ -289,21 +322,5 @@ const BusinessDetails = () => {
         </View>
     );
 };
-
-// Error text styles
-const errorTextStyles = StyleSheet.create({
-    errorText: {
-        color: 'red',
-        fontSize: 12,
-    }
-});
-
-// Success text styles
-const successTextStyles = StyleSheet.create({
-    successText: {
-        color: 'green',
-        fontSize: 12,
-    }
-});
 
 export default BusinessDetails;

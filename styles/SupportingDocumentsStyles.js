@@ -340,7 +340,7 @@ export default StyleSheet.create({
         width: 410,
         top: 0,
         color: Color.colorDarkslategray_100,
-        fontFamily: FontFamily.paragraphMediumRegular,
+        fontFamily: FontFamily.interLight,
         lineHeight: 24,
         textAlign: "left",
         fontSize: FontSize.paragraphMediumRegular_size,

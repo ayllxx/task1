@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, View, Pressable, Text, TextInput, Alert, StyleSheet } from "react-native";
+import { Image, View, Pressable, Text, TextInput, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
 import { firestore } from '../firebase'; // Adjust the import path as needed
@@ -19,11 +19,11 @@ const BankDetails = () => {
     // Function to validate form inputs
     const validate = () => {
         const newErrors = {};
-        if (selectedCurrency === ".") newErrors.currency = "*Currency is required*";
-        if (selectedCountry === ".") newErrors.country = "*Country of Bank Account is required*";
-        if (!iban) newErrors.iban = "*IBAN is required*";
-        if (!confirmIban) newErrors.confirmIban = "*Confirm IBAN is required*";
-        if (iban !== confirmIban) newErrors.confirmIban = "*IBANs do not match*";
+        if (selectedCurrency === ".") newErrors.currency = "Currency is required";
+        if (selectedCountry === ".") newErrors.country = "Country of Bank Account is required";
+        if (!iban) newErrors.iban = "IBAN is required";
+        if (!confirmIban) newErrors.confirmIban = "Confirm IBAN is required";
+        if (iban !== confirmIban) newErrors.confirmIban = "IBANs do not match";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -104,9 +104,19 @@ const BankDetails = () => {
                             <View style={styles.frameGroup}>
                                 {/* Currency selection */}
                                 <Text style={[styles.label1, styles.label1Typo]}>Currency</Text>
-                                {errors.currency && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.currency}</Text>}
+                                {errors.currency && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.currency}</Text>
+                                    </View>
+                                )}
                                 <Picker
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.currency && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     selectedValue={selectedCurrency}
                                     onValueChange={(itemValue) => {
                                         setSelectedCurrency(itemValue);
@@ -121,9 +131,19 @@ const BankDetails = () => {
 
                                 {/* Country of bank account selection */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Country of Bank Account</Text>
-                                {errors.country && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.country}</Text>}
+                                {errors.country && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.country}</Text>
+                                    </View>
+                                )}
                                 <Picker
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.country && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     selectedValue={selectedCountry}
                                     onValueChange={(itemValue) => {
                                         setSelectedCountry(itemValue);
@@ -138,9 +158,19 @@ const BankDetails = () => {
 
                                 {/* IBAN input */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>IBAN</Text>
-                                {errors.iban && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.iban}</Text>}
+                                {errors.iban && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.iban}</Text>
+                                    </View>
+                                )}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.iban && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     placeholder="Enter your IBAN"
                                     placeholderTextColor="#757d8a"
                                     value={iban}
@@ -149,9 +179,19 @@ const BankDetails = () => {
 
                                 {/* Confirm IBAN input */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Confirm IBAN</Text>
-                                {errors.confirmIban && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.confirmIban}</Text>}
+                                {errors.confirmIban && (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -16, marginTop: 1 }}>
+                                        <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                        <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.confirmIban}</Text>
+                                    </View>
+                                )}
                                 <TextInput
-                                    style={[styles.input, styles.labelTypo, { width: 410 }]}
+                                    style={[
+                                        styles.input,
+                                        styles.labelTypo,
+                                        { width: 410 },
+                                        errors.confirmIban && { borderColor: '#DF1B41', borderWidth: 1 }
+                                    ]}
                                     placeholder="Confirm IBAN"
                                     placeholderTextColor="#757d8a"
                                     value={confirmIban}
@@ -325,7 +365,7 @@ const BankDetails = () => {
 // Error text styles
 const errorTextStyles = StyleSheet.create({
     errorText: {
-        color: 'red',
+        color: '#DF1B41',
         fontSize: 12,
     }
 });

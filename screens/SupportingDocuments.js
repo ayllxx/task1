@@ -2,6 +2,7 @@ import * as React from "react";
 import { Image, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/SupportingDocumentsStyles";
+import { fontFamily } from "../GlobalStyles";
 
 // Main component function
 const SupportingDocuments = () => {
@@ -44,7 +45,7 @@ const SupportingDocuments = () => {
 
                                 {/* Informational text */}
                                 <Text
-                                    style={[styles.dueToRegulatory, styles.innerPosition, { width: 410 }]}
+                                    style={[styles.dueToRegulatory, { width: 410}]}
                                 >
                                     {`Please upload any further supporting documents to
 speed the process of verifying your account.`}

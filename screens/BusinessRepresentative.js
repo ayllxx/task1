@@ -24,14 +24,15 @@ const BusinessRepresentative = () => {
     // Function to validate form inputs
     const validate = () => {
         const newErrors = {};
-        if (!firstName) newErrors.firstName = "*First Name is required*";
-        if (!lastName) newErrors.lastName = "*Last Name is required*";
-        if (!email) newErrors.email = "*Email is required*";
-        else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "*Email is invalid*";
-        if (!addressLine1) newErrors.addressLine1 = "*Address Line 1 is required*";
-        if (!city) newErrors.city = "*City is required*";
-        if (!zip) newErrors.zip = "*Zip is required*";
-        if (!phone) newErrors.phone = "*Phone number is required*";
+        if (!firstName) newErrors.firstName = "First Name is required";
+        if (!lastName) newErrors.lastName = "Last Name is required";
+        if (!email) newErrors.email = "Email is required";
+        else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Email is invalid";
+        if (!addressLine1) newErrors.addressLine1 = "Address Line 1 is required";
+        if (!city) newErrors.city = "City is required";
+        if (!zip) newErrors.zip = "Zip is required";
+        if (!phone) newErrors.phone = "Phone number is required";
+        else if (!/^\d{12}$/.test(phone)) newErrors.phone = "Phone number is invalid";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -109,7 +110,12 @@ const BusinessRepresentative = () => {
                                 <Text style={[styles.label1, styles.label1Typo]}>Name</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ flex: 1, width: 205 }}>
-                                        {errors.firstName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.firstName}</Text>}
+                                    {errors.firstName && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.firstName}</Text>
+                                            </View>
+                                        )}
                                         <TextInput
                                             style={[styles.input, styles.labelTypo, { marginRight: 10, width: 200 }]}
                                             placeholder="First Name"
@@ -119,7 +125,12 @@ const BusinessRepresentative = () => {
                                         />
                                     </View>
                                     <View>
-                                        {errors.lastName && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.lastName}</Text>}
+                                    {errors.lastName && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.lastName}</Text>
+                                            </View>
+                                        )}
                                         <TextInput
                                             style={[styles.input, styles.labelTypo, { flex: 1, width: 200 }]}
                                             placeholder="Last Name"
@@ -132,7 +143,12 @@ const BusinessRepresentative = () => {
 
                                 {/* Email input */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Email</Text>
-                                {errors.email && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.email}</Text>}
+                                {errors.email && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.email}</Text>
+                                            </View>
+                                        )}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Email"
@@ -143,7 +159,12 @@ const BusinessRepresentative = () => {
 
                                 {/* Address input fields */}
                                 <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
-                                {errors.addressLine1 && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.addressLine1}</Text>}
+                                {errors.addressLine1 && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.addressLine1}</Text>
+                                            </View>
+                                        )}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Address Line 1"
@@ -158,7 +179,12 @@ const BusinessRepresentative = () => {
                                     value={addressLine2}
                                     onChangeText={(text) => { setAddressLine2(text); clearAllErrors(); }}
                                 />
-                                {errors.city && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.city}</Text>}
+                               {errors.city && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.city}</Text>
+                                            </View>
+                                        )}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="City"
@@ -166,7 +192,12 @@ const BusinessRepresentative = () => {
                                     value={city}
                                     onChangeText={(text) => { setCity(text); clearAllErrors(); }}
                                 />
-                                {errors.zip && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.zip}</Text>}
+                                {errors.zip && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.zip}</Text>
+                                            </View>
+                                        )}
                                 <TextInput
                                     style={[styles.input, styles.labelTypo, { width: 410 }]}
                                     placeholder="Zip"
@@ -188,7 +219,12 @@ const BusinessRepresentative = () => {
                                         <Picker.Item label="+355" value="+355" />
                                     </Picker>
                                     <View style={{ width: 249 }}>
-                                        {errors.phone && <Text style={{ color: 'red', marginBottom: -17, marginTop: 1, fontSize: 12 }}>{errors.phone}</Text>}
+                                    {errors.phone && (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -17, marginTop: 2 }}>
+                                                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginLeft: 0 }} />
+                                                <Text style={{ color: '#CD3D64', fontSize: 12, marginLeft: 4, fontFamily: "Inter-Regular" }}>{errors.phone}</Text>
+                                            </View>
+                                        )}
                                         <TextInput
                                             style={[styles.input, styles.labelTypo, { width: 289 }]}
                                             placeholder="085 1234567"
@@ -229,7 +265,8 @@ const BusinessRepresentative = () => {
                 {/* Navigation buttons */}
                 <Pressable
                     style={[styles.businessStructure, styles.overviewPosition]}
-                    onPress={() => { navigation.navigate("Business Structure");
+                    onPress={() => {
+                        navigation.navigate("Business Structure");
                     }} // Navigate to Business Structure screen
                 >
                     <Text style={[styles.businessStructure, styles.label1Type]}>

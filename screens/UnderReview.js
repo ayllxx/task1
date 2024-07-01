@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SafeAreaView, StyleSheet, Text, Pressable, Alert } from 'react-native';
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
@@ -22,7 +22,7 @@ const UnderReview = ({ navigation }) => {
 
     const checkAuthentication = async () => {
         try {
-            const q = query(collection(db, "businessStructure"), where("authen", "==", "verified",));
+            const q = query(collection(db, "businessStructure"), where("authen", "==", "verified"));
             const querySnapshot = await getDocs(q);
             let isAuthenticated = false;
 
@@ -33,19 +33,15 @@ const UnderReview = ({ navigation }) => {
             });
 
             if (isAuthenticated) {
-                navigation.navigate('Dashboard1'); // Navigate to Dashboard if verified
+                navigation.navigate('Dashboard'); // Navigate to Dashboard if verified
             } else {
-                navigation.navigate('Dashboard'); // Navigate to Dashboard1 if not verified
+                Alert.alert("Not Verified", "Your account is not verified yet.");
             }
         } catch (error) {
             console.error("Error fetching document: ", error);
             Alert.alert("Error", "There was an error checking the authentication status.");
         }
     };
-
-    useEffect(() => {
-        checkAuthentication();
-    }, []);
 
     return (
         <SafeAreaView style={styles1.container}>

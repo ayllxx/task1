@@ -1,28 +1,83 @@
-import * as React from "react";
-
-import { Text, View, Pressable, ScrollView, TextInput, Picker,Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View, Pressable, ScrollView, TextInput, Picker, Alert, Image, ActivityIndicator } from "react-native";
 import MenuItems from "../components/MenuItems";
 import { useNavigation } from "@react-navigation/native";
 import GroupComponent from "../components/GroupComponent";
 import styles from "../styles/DashboardStyles";
-import { useState } from 'react';
-
+import styles1 from "../styles/Dashboard1Styles";
+import VerificationProgress from "../components/VerificationProgress";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { firestore } from "../firebase"; // Import firestore correctly
+import TotalInstallationsChart from "../components/charts/TotalInstallationsChart";
+import InteractiveChart from "../components/charts/InteractiveChart";
+import DataTransferredChart from "../components/charts/DataTransferredChart";
+import ConnectionsEstablished from "../components/charts/ConnectionsChart";
+import DisputesChart from "../components/charts/DisputesChart";
 
 const Dashboard = () => {
   const navigation = useNavigation();
   const [selectedValue, setSelectedValue] = useState("7");
   const [selectedButton, setSelectedButton] = useState('12 Months');
   const [selectedButtonInstall, setSelectedButtonInstall] = useState('6 Months');
+  const [topPosition, setTopPosition] = useState(0); // Initial top position
+  const [isVerified, setIsVerified] = useState(false);
+  const [timeframe, setTimeframe] = useState('12months');
+  const [loading, setLoading] = useState(true); // Loader state
 
-  const handlePress = (buttonName) => {
-    setSelectedButton(buttonName);
+  const data = {
+    '12months': [
+        { shortName: 'Feb', fullName: 'February', uv: 50, pv: 40 },
+        { shortName: 'Mar', fullName: 'March', uv: 60, pv: 50 },
+        { shortName: 'Apr', fullName: 'April', uv: 55, pv: 45 },
+        { shortName: 'May', fullName: 'May', uv: 70, pv: 60 },
+        { shortName: 'Jun', fullName: 'June', uv: 75, pv: 65 },
+        { shortName: 'Jul', fullName: 'July', uv: 80, pv: 70 },
+        { shortName: 'Aug', fullName: 'August', uv: 85, pv: 75 },
+        { shortName: 'Sep', fullName: 'September', uv: 90, pv: 80 },
+        { shortName: 'Oct', fullName: 'October', uv: 100, pv: 90 },
+        { shortName: 'Nov', fullName: 'November', uv: 110, pv: 100 },
+        { shortName: 'Dec', fullName: 'December', uv: 120, pv: 110 },
+        { shortName: 'Jan', fullName: 'January', uv: 130, pv: 120 }
+    ],
   };
-  const handlePress2 = (buttonName) => {
-    setSelectedButtonInstall(buttonName);
+
+  const checkAuthentication = async () => {
+    try {
+      const q = query(collection(firestore, "businessStructure"), where("authen", "==", "verified"));
+      const querySnapshot = await getDocs(q);
+      let isAuthenticated = false;
+
+      querySnapshot.forEach((doc) => {
+        if (doc.data().authen === "verified") {
+          isAuthenticated = true;
+        }
+      });
+
+      setIsVerified(isAuthenticated);
+      if (isAuthenticated) {
+        setTopPosition(topPosition - 275); // Move up 275px if authenticated
+      }
+    } catch (error) {
+      console.error("Error fetching document: ", error);
+      Alert.alert("Error", "There was an error checking the authentication status.");
+    } finally {
+      setLoading(false); // Hide the loader
+    }
   };
+
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
-
     <ScrollView style={styles.dashboard}>
       <View style={styles.sidebar}>
         <View style={styles.logo}>
@@ -31,12 +86,12 @@ const Dashboard = () => {
             contentFit="cover"
             source={require("../assets/group-1.png")}
           />
-          
         </View>
         <MenuItems
-        home={require("../assets/home.png")}
-        menuItemTop={-3}
-        propColor="#635bff" />
+          home={require("../assets/home.png")}
+          menuItemTop={-3}
+          propColor="#635bff"
+        />
         <View style={styles.bottom}>
           <View style={styles.logout}>
             <View style={styles.logoutChild} />
@@ -61,9 +116,7 @@ const Dashboard = () => {
               </Text>
             </View>
             <View style={styles.upgradeYourAccountParent}>
-              <Text
-                style={[styles.upgradeYourAccount, styles.freeGiftAwaitsTypo]}
-              >
+              <Text style={[styles.upgradeYourAccount, styles.freeGiftAwaitsTypo]}>
                 Upgrade your account
               </Text>
               <Image
@@ -74,7 +127,17 @@ const Dashboard = () => {
             </View>
           </View>
         </View>
-        
+        {!isVerified && (
+          <Pressable style={[styles1.activateButton, styles1.activateFlexBox]}>
+            <Text style={styles1.activateAccount}>Activate account</Text>
+            <Image
+              style={[styles1.arrowrightIcon, styles1.iconLayout1]}
+              contentFit="cover"
+              source={require("../assets/--arrowright.png")}
+            />
+          </Pressable>
+        )}
+
         <View style={styles.testdata}>
           <Text style={[styles.testData, styles.testDataTypo]}>Test data</Text>
           <Pressable
@@ -90,38 +153,30 @@ const Dashboard = () => {
           </Pressable>
         </View>
       </View>
-      
+
       <View style={styles.right}>
         <View style={styles.globaltab}>
           <View style={styles.tabWrapper}>
-            <Text style={[styles.testData, styles.testDataTypo]}>
-              Developers
-            </Text>
+            <Text style={[styles.testData, styles.testDataTypo]}>Developers</Text>
           </View>
         </View>
         <View style={styles.spacer40px} />
       </View>
-      {/*Last 7 days*/}
-
-      <View style={styles.dateControlWrapper}>
-
-
+      {/* Last 7 days */}
+      <View style={[styles.dateControlWrapper,{ top: 706 + topPosition }]}>
         <Picker
           selectedValue={selectedValue}
           style={[styles.text, styles.dateControl]}
           onValueChange={(itemValue, itemIndex) => {
             setSelectedValue(itemValue);
-
+            setTimeframe(itemValue);  // update the timeframe when selectedValue changes
           }}
         >
-          <Picker.Item label="Last 7 days" value="7" />
-          <Picker.Item label="Last 14 days" value="14" />
-          <Picker.Item label="Month" value="30" />
-          <Picker.Item label="6 Months" value="180" />
-          <Picker.Item label="Year" value="365" />
+          <Picker.Item label="Last 7 days" value="7days" />
+          <Picker.Item label="Month" value="30days" />
+          <Picker.Item label="6 Months" value="6months" />
+          <Picker.Item label="Year" value="12months" />
         </Picker>
-
-
       </View>
 
       <Image
@@ -219,158 +274,16 @@ const Dashboard = () => {
         contentFit="cover"
         source={require("../assets/ellipse-2.png")}
       />
-      {/*group comp*/}
-      <GroupComponent />
-      <View style={[styles.chart, styles.chartPosition1]}>
+      <GroupComponent style={[{ top: 600 + topPosition }]} />
+      <VerificationProgress style={[{ top: 600 + topPosition }]} />
+      <View style={[styles.chart, styles.chartPosition1, { top: 340 + topPosition }]}>
         <View style={[styles.bg, styles.bgBorder]} />
-        <View style={[styles.lines, styles.linesPosition]}>
-          <View style={[styles.linesChild, styles.linesChildPosition]} />
-          <View style={[styles.linesItem, styles.linesChildPosition]} />
-          <View style={[styles.linesInner, styles.linesChildPosition]} />
-          <View style={[styles.lineView, styles.linesChildPosition]} />
-          <View style={[styles.linesChild1, styles.linesChildPosition]} />
-        </View>
+        <View style={[styles.lines, styles.linesPosition]}></View>
         <View style={[styles.graph, styles.linesPosition]}>
-          <Image
-            style={[styles.bgIcon, styles.iconChildLayout]}
-            contentFit="cover"
-            source={require("../assets/bg.png")}
-          />
-          <Text style={[styles.feb, styles.febTypo]}>Feb</Text>
-          <Text style={[styles.mar, styles.febTypo]}>Mar</Text>
-          <Text style={[styles.apr, styles.febTypo]}>Apr</Text>
-          <Text style={[styles.may, styles.febTypo]}>May</Text>
-          <Text style={[styles.jun, styles.febTypo]}>Jun</Text>
-          <Text style={[styles.jul, styles.febTypo]}>Jul</Text>
-          <Text style={[styles.aug, styles.febTypo]}>Aug</Text>
-          <Text style={[styles.sep, styles.febTypo]}>Sep</Text>
-          <Text style={[styles.oct, styles.febTypo]}>Oct</Text>
-          <Text style={[styles.nov, styles.febTypo]}>Nov</Text>
-          <Text style={[styles.dec, styles.febTypo]}>Dec</Text>
-          <Text style={[styles.jan, styles.febTypo]}>Jan</Text>
+          <InteractiveChart />
         </View>
-        <View style={[styles.chartChild, styles.bgBorder]} />
-        <Image
-          style={[styles.chartItem, styles.iconChildLayout]}
-          contentFit="cover"
-          source={require("../assets/ellipse-11.png")}
-        />
-        <Text style={[styles.text2, styles.textTypo1]}>
-          Virtual cards issued
-        </Text>
-        <View style={styles.popup}>
-          <View style={[styles.union, styles.bg1ShadowBox]}>
-            <Image
-              style={[styles.unionChild, styles.iconChildLayout]}
-              contentFit="cover"
-              source={require("../assets/polygon-1.png")}
-            />
-            <View style={[styles.bg1, styles.bg1ShadowBox]} />
-          </View>
-          <Text style={[styles.text3, styles.textTypo1]}>1,232</Text>
-          <Text style={[styles.june2022, styles.logout1Typo]}>June 2022</Text>
-        </View>
-        <View style={styles.buttonprimarywithIconLeftParent}>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft,
-          selectedButton === '12 Months' && styles.selectedButton,
-        ]}
-        onPress={() => handlePress('12 Months')}
-      >
-        <View style={[styles.iconParent, styles.groupIconFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName,
-              styles.buttonTypo1,
-              selectedButton === '12 Months' && styles.selectedText,
-            ]}
-          >
-            12 Months
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft1,
-          styles.buttonprimarywithIconLayout1,
-          selectedButton === '6 Months' && styles.selectedButton,
-        ]}
-        onPress={() => handlePress('6 Months')}
-      >
-        <View style={[styles.iconParent, styles.groupIconFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon1.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName1,
-              styles.buttonTypo1,
-              selectedButton === '6 Months' && styles.selectedText,
-            ]}
-          >
-            6 Months
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft2,
-          styles.buttonprimarywithIconLayout1,
-          selectedButton === '30 Days' && styles.selectedButton,
-        ]}
-        onPress={() => handlePress('30 Days')}
-      >
-        <View style={[styles.iconParent, styles.groupIconFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon2.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName1,
-              styles.buttonTypo1,
-              selectedButton === '30 Days' && styles.selectedText,
-            ]}
-          >
-            30 Days
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft3,
-          styles.buttonprimarywithIconLayout1,
-          selectedButton === '7 Days' && styles.selectedButton,
-        ]}
-        onPress={() => handlePress('7 Days')}
-      >
-        <View style={[styles.iconParent, styles.groupIconFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon3.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName1,
-              styles.buttonTypo1,
-              selectedButton === '7 Days' && styles.selectedText,
-            ]}
-          >
-            7 Days
-          </Text>
-        </View>
-      </Pressable>
-    </View>
+        <Text style={[styles.text2, styles.textTypo1]}>Virtual cards issued</Text>
+
         <Text style={[styles.text4, styles.textTypo]}>5,987</Text>
         <Image
           style={[styles.glyphIcon, styles.iconChildLayout]}
@@ -378,132 +291,22 @@ const Dashboard = () => {
           source={require("../assets/glyph.png")}
         />
       </View>
-      {/*Total Installation*/}
-      <View style={[styles.chart2, styles.chartPosition1]}>
+      {/* Total Installation */}
+      
+      <View style={[styles.chart2, styles.chartPosition1, { top: 340 + topPosition }]}>
+        
         <View style={[styles.bg2, styles.bg2Position]} />
         
-        <Text
-          style={[styles.text5, styles.textPosition]}
-        >{`Totall Installation  `}</Text>
-        <View
-          style={[styles.buttonprimarywithIconLeftGroup, styles.textPosition]}
-        >
-          <View>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft4,
-          selectedButtonInstall === '12 Month' && styles.selectedButtonInstall,
-        ]}
-        onPress={() => handlePress2('12 Month')}
-      >
-        <View style={[styles.iconParent1, styles.groupIconFlexBox]}>
-          <Image
-            style={[styles.icon4, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/icon4.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName4,
-              styles.buttonTypo,
-              selectedButtonInstall === '12 Month' && styles.selectedTextInstall,
-            ]}
-          >
-            12 Months
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft5,
-          styles.buttonprimarywithIconLayout,
-          selectedButtonInstall === '6 Months' && styles.selectedButtonInstall,
-        ]}
-        onPress={() => handlePress2('6 Months')}
-      >
-        <View style={[styles.iconParent1, styles.groupIconFlexBox]}>
-          <Image
-            style={[styles.icon4, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/icon5.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName5,
-              styles.buttonTypo,
-              selectedButtonInstall === '6 Months' && styles.selectedTextInstall,
-            ]}
-          >
-            6 Months
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft6,
-          styles.buttonprimarywithIconLayout,
-          selectedButtonInstall === '30 Days' && styles.selectedButtonInstall,
-        ]}
-        onPress={() => handlePress2('30 Days')}
-      >
-        <View style={[styles.iconParent1, styles.groupIconFlexBox]}>
-          <Image
-            style={[styles.icon4, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/icon6.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName5,
-              styles.buttonTypo,
-              selectedButtonInstall === '30 Days' && styles.selectedTextInstall,
-            ]}
-          >
-            30 Days
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.buttonprimarywithIconLeft7,
-          styles.buttonprimarywithIconLayout,
-          selectedButtonInstall === '7 Days' && styles.selectedButtonInstall,
-        ]}
-        onPress={() => handlePress2('7 Days')}
-      >
-        <View style={[styles.iconParent1, styles.groupIconFlexBox]}>
-          <Image
-            style={[styles.icon4, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/icon7.png")}
-          />
-          <Text
-            style={[
-              styles.buttonName5,
-              styles.buttonTypo,
-              selectedButtonInstall === '7 Days' && styles.selectedTextInstall,
-            ]}
-          >
-            7 Days
-          </Text>
-        </View>
-      </Pressable>
-    </View>
-        </View>
-        <Image
-          style={[styles.bgIcon1, styles.iconPosition]}
-          contentFit="cover"
-          source={require("../assets/bg1.png")}
-        />
+        <Text style={[styles.text5, styles.textPosition]}>Total Installation</Text>
         <Text style={[styles.text6, styles.textPosition]}>5,987</Text>
+        
+        <TotalInstallationsChart />
+        
       </View>
-      <View style={[styles.chart21, styles.chartLayout]}>
+
+      <View style={[styles.chart21, styles.chartLayout, { top: 743 + topPosition }]}>
         <View style={[styles.bg3, styles.bg2Position]} />
-        <Image
-          style={[styles.bgIcon2, styles.iconPosition]}
-          contentFit="cover"
-          source={require("../assets/bg2.png")}
-        />
+        <DataTransferredChart timeframe={timeframe} />
         <Text style={[styles.primary, styles.primaryTypo]}>
           <Text style={styles.text7}>{`15,345+   `}</Text>
           <Text style={styles.documentsTransfered}>Documents Transfered</Text>
@@ -525,18 +328,12 @@ const Dashboard = () => {
           </View>
         </View>
       </View>
-      <View style={[styles.chart3, styles.chartLayout]}>
+      <View style={[styles.chart3, styles.chartLayout, { top: 743 + topPosition }]}>
         <View style={[styles.bg3, styles.bg2Position]} />
-        <Image
-          style={[styles.bgIcon2, styles.iconPosition]}
-          contentFit="cover"
-          source={require("../assets/bg3.png")}
-        />
+        <ConnectionsEstablished timeframe={timeframe} />
         <Text style={[styles.primary1, styles.primaryTypo]}>
           <Text style={styles.text7}>{`100  `}</Text>
-          <Text style={styles.documentsTransfered}>
-            Connections Established
-          </Text>
+          <Text style={styles.documentsTransfered}>Connections Established</Text>
         </Text>
         <View style={[styles.titleWrapper, styles.titlePosition]}>
           <Text style={styles.titleTypo}>Connections</Text>
@@ -557,13 +354,9 @@ const Dashboard = () => {
           </View>
         </View>
       </View>
-      <View style={[styles.chart4, styles.chartLayout]}>
+      <View style={[styles.chart4, styles.chartLayout, { top: 743 + topPosition }]}>
         <View style={[styles.bg3, styles.bg2Position]} />
-        <Image
-          style={[styles.bgIcon2, styles.iconPosition]}
-          contentFit="cover"
-          source={require("../assets/bg4.png")}
-        />
+        <DisputesChart timeframe={timeframe} />
         <Text style={[styles.primary2, styles.primaryTypo]}>5</Text>
         <Text style={[styles.title2, styles.titleTypo]}>Disputes</Text>
         <View style={[styles.deprecatedBadge2, styles.deprecatedLayout]}>
@@ -592,15 +385,13 @@ const Dashboard = () => {
           <TextInput
             style={[styles.search1, { outline: "none" }]}
             placeholder="Search..."
-            onChangeText={text => console.log(text)}
+            onChangeText={(text) => console.log(text)}
           />
         </View>
       </View>
     </ScrollView>
-
   );
 };
-
 
 
 export default Dashboard;

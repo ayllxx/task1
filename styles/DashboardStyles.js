@@ -2,6 +2,12 @@ import { FontFamily, Color, Border, Padding, FontSize } from "../GlobalStyles2";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+    //loader
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
     iconChildLayout: {
         maxHeight: "100%",
         maxWidth: "100%",

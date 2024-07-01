@@ -14,7 +14,7 @@ import Authentication from "./screens/Authentication";
 import Overview from "./screens/Overview";
 import UnderReview from "./screens/UnderReview";
 import Dashboard from "./screens/Dashboard";
-import Dashboard1 from "./screens/Dashboard1";
+
 import SideBar from "./components/SideBar";
 import Group from "./components/Group";
 import Menu from "./components/Menu";
@@ -53,6 +53,12 @@ const App = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {hideSplashScreen && (
           <>
+          <Stack.Screen
+              name="Dashboard"
+              component={Dashboard}
+              options={{ headerShown: false }}
+            />
+            
           
             <Stack.Screen
               name="Business Structure"
@@ -113,17 +119,6 @@ const App = () => {
               options={{ headerShown: false }}
               
             />
-            <Stack.Screen
-              name="Dashboard"
-              component={Dashboard}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Dashboard1"
-              component={Dashboard1}
-              options={{ headerShown: false }}
-            />
-            
           </>
         )}
       </Stack.Navigator>

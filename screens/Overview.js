@@ -95,183 +95,118 @@ const Overview = () => {
                             <View style={styles.frameGroup}>
                                 {/* Business Structure Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginBottom: 24 }]}>Business Structure</Text>
-                                
+
                                 {/* Business Address */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginBottom: 0 }]}>Business Address</Text>
-                                <LabelInput
-                                    label1={data.businessAddress || "N/A"}
-                                    showIcons
-                                    propAlignSelf="unset"
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginBottom: 8 }]}>Business Address</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.businessAddress || "N/A"}
+                                </Text>
 
                                 {/* Business Type */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Type of business</Text>
-                                <LabelInput
-                                    label1={data.selectedType || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>Type of business</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.selectedType || "N/A"}
+                                </Text>
 
                                 {/* Address Line 1 */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
-                                <LabelInput
-                                    label1={data.addressLine1 || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16, marginBottom:8, }]}>Address</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.addressLine1 || "N/A"}
+                                </Text>
 
                                 {/* City */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>City</Text>
-                                <LabelInput
-                                    label1={data.city || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16, marginBottom:8, }]}>City</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.city || "N/A"}
+                                </Text>
 
                                 {/* ZIP */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>ZIP</Text>
-                                <LabelInput
-                                    label1={data.zip || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>ZIP</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.zip || "N/A"}
+                                </Text>
+
 
                                 {/* Business Representative Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 24 }]}>Business Representative</Text>
-                                
+
                                 {/* First Name */}
-                                <Text style={[styles.label1, styles.label1Typo]}>First Name</Text>
-                                <LabelInput
-                                    label1={data.firstName || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo,{marginBottom:8,}]}>First Name</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.firstName || "N/A"}
+                                </Text>
 
                                 {/* Last Name */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Last Name</Text>
-                                <LabelInput
-                                    label1={data.lastName || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>Last Name</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.lastName || "N/A"}
+                                </Text>
 
                                 {/* Email */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Email</Text>
-                                <LabelInput
-                                    label1={data.email || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>Email</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.email || "N/A"}
+                                </Text>
 
                                 {/* Phone Number */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Phone Number</Text>
-                                <LabelInput
-                                    label1={phoneWithAreaCode || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16, marginBottom:8, }]}>Phone Number</Text>
+                                <Text style={styles.textStyle}>
+                                    {phoneWithAreaCode || "N/A"}
+                                </Text>
 
                                 {/* Address Line 1 */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Address</Text>
-                                <LabelInput
-                                    label1={data.addressLine1 || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16, marginBottom:8, }]}>Address</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.addressLine1 || "N/A"}
+                                </Text>
 
                                 {/* Business Details Section */}
-                                <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 24 }]}>Business Details</Text>
+                                <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 16 }]}>Business Details</Text>
 
                                 {/* VAT */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>VAT</Text>
-                                <LabelInput
-                                    label1={data.vatNumber || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16, marginBottom:8, }]}>VAT</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.vatNumber || "N/A"}
+                                </Text>
 
                                 {/* Industry */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Industry</Text>
-                                <LabelInput
-                                    label1={data.selectedIndustry || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>Industry</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.selectedIndustry || "N/A"}
+                                </Text>
 
                                 {/* Organization Website */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Organization website</Text>
-                                <LabelInput
-                                    label1={data.website || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16, marginBottom:8, }]}>Organization website</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.website || "N/A"}
+                                </Text>
 
                                 {/* Bank Details Section */}
                                 <Text style={[styles.mainLabel, styles.label1Typo, { marginTop: 24, marginBottom: 8 }]}>Bank Details</Text>
 
                                 {/* Currency */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Currency</Text>
-                                <LabelInput
-                                    label1={data.selectedCurrency || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>Currency</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.selectedCurrency || "N/A"}
+                                </Text>
 
                                 {/* Country of Bank Account */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>Country of bank account</Text>
-                                <LabelInput
-                                    label1={data.selectedCountry || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>Country of bank account</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.selectedCountry || "N/A"}
+                                </Text>
 
                                 {/* IBAN */}
-                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 }]}>IBAN</Text>
-                                <LabelInput
-                                    label1={data.iban || "N/A"}
-                                    propWidth={410}
-                                    propWidth1={410}
-                                    propFontSize={16}
-                                    propColor="#757d8a"
-                                />
+                                <Text style={[styles.label1, styles.label1Typo, { marginTop: 16 , marginBottom:8,}]}>IBAN</Text>
+                                <Text style={styles.textStyle}>
+                                    {data.iban || "N/A"}
+                                </Text>
 
                                 {/* Continue Button */}
                                 <Pressable
                                     style={[styles.continueParent, styles.labelInputsSpaceBlock, { width: 410, height: 34 }]}
                                     onPress={() => {
-                                        // Add press handler here
+                                        navigation.navigate("Dashboard")
                                     }}
                                 >
                                     <Text style={[styles.continue, styles.label1Layout, { color: '#FFFFFF' }]}>Continue</Text>
@@ -369,8 +304,8 @@ const Overview = () => {
                 >
                     <Text style={[styles.businessDetails1, styles.businessTypo]}>
                         Business executives
-                        </Text>
-                    </Pressable>
+                    </Text>
+                </Pressable>
                 <Pressable
                     style={[styles.businessDirectors, styles.businessPosition]}
                     onPress={() => navigation.navigate("Business Directors")} // Navigate to Business Directors screen

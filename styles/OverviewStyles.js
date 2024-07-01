@@ -2,6 +2,18 @@ import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+    textStyle: {
+        width: 410,
+        height: 34,
+        borderRadius: 4,      
+        paddingBottom: 4,
+        paddingTop: 4,
+        paddingLeft: 16,
+        paddingRight: 8,
+        fontSize: 16,
+        backgroundColor: "#F6F8FA", 
+        color: '#757d8a', 
+    },
     overviewClr: {
         color: Color.colorBlack,
         fontSize: FontSize.paragraphMediumRegular_size,

@@ -70,20 +70,20 @@ const BusinessStructure = () => {
 
   return (
     <View style={styles.view}>
-            {/* Background child element */}
-            <View style={styles.child} />
+      {/* Background child element */}
+      <View style={styles.child} />
 
-            {/* Back button */}
-            <Pressable
-                style={styles.button}
-                onPress={() => navigation.navigate("Business Owners")} // Navigate to Authentication screen
-            >
-                <Image
-                    style={styles.outlineLayout}
-                    contentFit="cover"
-                    source={require("../assets/back_arrow.png")} // Back button icon
-                />
-            </Pressable>
+      {/* Back button */}
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate("")} // Navigate to Authentication screen
+      >
+        <Image
+          style={styles.outlineLayout}
+          contentFit="cover"
+          source={require("../assets/back_arrow.png")} // Back button icon
+        />
+      </Pressable>
       {/* Account verification text */}
       <Text style={styles.accountVerification}>Account verification</Text>
 
@@ -101,20 +101,29 @@ const BusinessStructure = () => {
           source={require("../assets/-fill--closecircle.png")}
         />
       </View>
-      
+
       {/* Form container */}
       <View style={styles.frameParent}>
         <View style={styles.frameGroup}>
           <View style={styles.frameGroup}>
             <View style={styles.frameGroup}>
-              
+
               {/* Business address input */}
               <Text style={styles.label1}>Business address</Text>
               {showErrors && businessAddress.trim() === "" && (
-                <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1 }]}>*Registered Business Address is required*</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginBottom: -17 }} />
+                  <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1, marginLeft: 4, }]}>Business Address is required</Text>
+                </View>
               )}
               <TextInput
-                style={[styles.input, styles.labelTypo, { width: 410 }]}
+                style={[
+                  styles.input,
+                  styles.labelTypo,
+                  { width: 410 },
+                  showErrors && businessAddress.trim() === "" && { borderColor: '#DF1B41', borderWidth: 1 }
+                ]}
+                
                 placeholder="Registered business address"
                 placeholderTextColor="#757d8a"
                 value={businessAddress}
@@ -123,11 +132,20 @@ const BusinessStructure = () => {
 
               {/* Business type selection */}
               <Text style={[styles.label1, { marginTop: 10 }]}>Type</Text>
+
               {showErrors && selectedType === "." && (
-                <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1 }]}>*Type of Business is required*</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginBottom: -17 }} />
+                  <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1, marginLeft: 4, }]}>Type of Business is required</Text>
+                </View>
               )}
               <Picker
-                style={[styles.input, styles.labelTypo, { width: 410 }]}
+                style={[
+                  styles.input,
+                  styles.labelTypo,
+                  { width: 410 },
+                  showErrors && selectedType === "." && { borderColor: '#DF1B41', borderWidth: 1 }
+                ]}
                 selectedValue={selectedType}
                 onValueChange={(itemValue) => { setSelectedType(itemValue); setShowErrors(false); }}
               >
@@ -142,18 +160,31 @@ const BusinessStructure = () => {
           <View style={styles.labelInputsSpaceBlock}>
             <Text style={[styles.label1, styles.label1Layout]}>Address</Text>
             {showErrors && addressLine1.trim() === "" && (
-              <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1 }]}>*Address Line 1 is required*</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginBottom: -17 }} />
+                <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1, marginLeft: 4, }]}>Address Line 1 is required</Text>
+              </View>
             )}
             <TextInput
-              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              style={[
+                styles.input,
+                styles.labelTypo,
+                { width: 410 },
+                showErrors && addressLine1.trim() === "" && { borderColor: '#DF1B41', borderWidth: 1 }
+              ]}
               placeholder="Address line 1"
               placeholderTextColor="#757d8a"
               value={addressLine1}
               onChangeText={(text) => { setAddressLine1(text); setShowErrors(false); }}
             />
-            
+
             <TextInput
-              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              style={[
+                styles.input,
+                styles.labelTypo,
+                { width: 410 },
+                showErrors && addressLine2.trim() === "" && { borderColor: '#DF1B41', borderWidth: 1 }
+              ]}
               placeholder="Address line 2"
               placeholderTextColor="#757d8a"
               value={addressLine2}
@@ -161,10 +192,18 @@ const BusinessStructure = () => {
             />
 
             {showErrors && city.trim() === "" && (
-              <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1 }]}>*City is required*</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginBottom: -17 }} />
+                <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1, marginLeft: 4, }]}>City is required</Text>
+              </View>
             )}
             <TextInput
-              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              style={[
+                styles.input,
+                styles.labelTypo,
+                { width: 410 },
+                showErrors && city.trim() === "" && { borderColor: '#DF1B41', borderWidth: 1 }
+              ]}
               placeholder="City"
               placeholderTextColor="#757d8a"
               value={city}
@@ -172,10 +211,18 @@ const BusinessStructure = () => {
             />
 
             {showErrors && zip.trim() === "" && (
-              <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1 }]}>*ZIP is required*</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={require('../assets/attention.png')} style={{ width: 12, height: 12, marginBottom: -17 }} />
+                <Text style={[styles.errorText, { marginBottom: -17, marginTop: 1, marginLeft: 4, }]}>Zip is required</Text>
+              </View>
             )}
             <TextInput
-              style={[styles.input, styles.labelTypo, { width: 410 }]}
+              style={[
+                styles.input,
+                styles.labelTypo,
+                { width: 410 },
+                showErrors && zip.trim() === "" && { borderColor: '#DF1B41', borderWidth: 1 }
+              ]}
               placeholder="ZIP"
               placeholderTextColor="#757d8a"
               value={zip}
@@ -183,8 +230,6 @@ const BusinessStructure = () => {
             />
           </View>
         </View>
-
-       
 
         {/* Continue button */}
         <Pressable
@@ -202,7 +247,7 @@ const BusinessStructure = () => {
             source={require("../assets/-fill--arrowleft1.png")} // Continue button icon
           />
         </Pressable>
-        
+
       </View>
 
       {/* Navigation menu at the side */}
@@ -332,6 +377,5 @@ const BusinessStructure = () => {
     </View>
   );
 };
-
 
 export default BusinessStructure;

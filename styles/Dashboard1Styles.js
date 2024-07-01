@@ -440,8 +440,8 @@ export default StyleSheet.create({
       flexDirection: "row",
     },
     container: {
-      top: 11,
-      left: 20,
+      top: -10,
+      left: 0,
       position: "absolute",
     },
     banner: {

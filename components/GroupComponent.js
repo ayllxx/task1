@@ -1,20 +1,52 @@
-import React, { useMemo } from "react";
-import { Text, StyleSheet, View,Image } from "react-native";
-import { Padding, Border, FontSize, FontFamily, Color,} from "../GlobalStyles2";
+import React, { useMemo, useState, useEffect } from "react";
+import { Text, StyleSheet, View, Alert,Image } from "react-native";
+import { Padding, Border, FontSize, FontFamily, Color } from "../GlobalStyles2";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { firestore } from "../firebase"; // Import firestore correctly
 
 const getStyleValue = (key, value) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
 };
+
 const GroupComponent = ({ rectangleViewTop }) => {
+  const [isVerified, setIsVerified] = useState(false);
+  const [topPosition, setTopPosition] = useState(false);
+
+  const checkAuthentication = async () => {
+    try {
+      const q = query(collection(firestore, "businessStructure"), where("authen", "==", "verified"));
+      const querySnapshot = await getDocs(q);
+      let isAuthenticated = false;
+
+      querySnapshot.forEach((doc) => {
+        if (doc.data().authen === "verified") {
+          isAuthenticated = true;
+        }
+      });
+
+      setIsVerified(isAuthenticated);
+      if (isAuthenticated) {
+        setTopPosition(topPosition- 275); // Move up 200px if authenticated
+      }
+    } catch (error) {
+      console.error("Error fetching document: ", error);
+      Alert.alert("Error", "There was an error checking the authentication status.");
+    }
+  };
+
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
+
   const groupViewStyle = useMemo(() => {
     return {
-      ...getStyleValue("top", rectangleViewTop),
+      ...getStyleValue("top", topPosition),
     };
-  }, [rectangleViewTop]);
+  }, [topPosition]);
 
   return (
-    <View style={[styles.dashboardInner, groupViewStyle]}>
+    <View style={[styles.dashboardInner, groupViewStyle, [{ top: 983 + topPosition }]]}>
       <View style={[styles.dataParent, styles.dataPosition]}>
         <View style={[styles.data, styles.dataPosition]}>
           <View style={[styles.top, styles.topFlexBox]}>
@@ -833,7 +865,7 @@ const styles = StyleSheet.create({
     color: Color.success700,
   },
   badgeBase: {
-    backgroundColor: Color.success50,
+    backgroundColor: "#ecfdf3",
   },
   badge: {
     width: "108.33%",
@@ -964,6 +996,8 @@ const styles = StyleSheet.create({
     height: 783,
     width: 1141,
     position: "absolute",
+    
+    backgroundColor: "#fff", // Added a white background
   },
 });
 
